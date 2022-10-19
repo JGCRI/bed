@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'pytemplate'
+project = 'bed'
 copyright = '2022, I.M. Human'
 author = 'I.M. Human'
 release = '0.0.0'

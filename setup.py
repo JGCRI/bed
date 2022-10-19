@@ -9,13 +9,13 @@ def readme():
         return f.read()
 
 
-version = re.search(r"__version__ = ['\"]([^'\"]*)['\"]", open('pytemplate/__init__.py').read(), re.M).group(1)
+version = re.search(r"__version__ = ['\"]([^'\"]*)['\"]", open('bed/__init__.py').read(), re.M).group(1)
 
 setup(
-    name='pytemplate',
+    name='bed',
     version=version,
     packages=find_packages(),
-    url='https://github.com/JGCRI/pytemplate',
+    url='https://github.com/JGCRI/bed',
     license='BSD-2-Clause',
     author='I.M. Human',
     author_email='i.human@machine.domain',

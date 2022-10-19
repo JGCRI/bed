@@ -2,7 +2,7 @@ import unittest
 
 import numpy as np
 
-import pytemplate.config as cfg
+import bed.config as cfg
 
 
 class TestConfig(unittest.TestCase):
