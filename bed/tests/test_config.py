@@ -4,7 +4,6 @@ import numpy as np
 
 import bed.config as cfg
 
-
 class TestConfig(unittest.TestCase):
 
     COMP_ARRAY = np.array([1, 2, 3])
