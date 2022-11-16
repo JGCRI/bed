@@ -1,21 +1,13 @@
-import unittest
+# content of test_sample.py
+def inc(x):
+    return x + 1
 
-import numpy as np
-
-import bed.config as cfg
-
-class TestConfig(unittest.TestCase):
-
-    COMP_ARRAY = np.array([1, 2, 3])
-
-    def test_fake(self):
-
-        result = cfg.fake()
-
-        self.assertEqual(True, result)
-
-        np.testing.assert_array_equal(TestConfig.COMP_ARRAY, np.array([1, 2, 3]))
+def sum(x,y):
+    return x + y
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_inc():
+    assert inc(3) == 5
+
+def test_sum():
+    assert sum(3,4) == 5
