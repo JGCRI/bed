@@ -1,4 +1,4 @@
-[![build](https://github.com/JGCRI/pytemplate/actions/workflows/build.yml/badge.svg)](https://github.com/JGCRI/pytemplate/actions/workflows/build.yml) 
+[![build](https://github.com/JGCRI/bed/actions/workflows/build.yml/badge.svg)](https://github.com/JGCRI/bed/actions/workflows/build.yml)
 [![docs](https://github.com/JGCRI/bed/actions/workflows/docs.yml/badge.svg)](https://github.com/JGCRI/bed/actions/workflows/docs.yml)
 
 ## pytemplate
