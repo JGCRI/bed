@@ -1,13 +1,14 @@
-# content of test_sample.py
-def inc(x):
-    return x + 1
+# Import libraries
+import pytest
+import bed
 
-def sum(x,y):
-    return x + y
+def test_fake():
+    assert bed.fake() == True
 
+def test_fake2():
+    assert bed.fake2() == True
 
-def test_inc():
-    assert inc(3) == 5
-
-def test_sum():
-    assert sum(3,4) == 5
+def test_class():
+    a1 = bed.Bed()  # Coming from Model.py
+    a1.var1
+    assert a1.var1 == 0.125
