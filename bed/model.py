@@ -8,6 +8,8 @@ Copyright (c) 2022, Battelle Memorial Institute
 
 """
 
+import logging
+
 class Bed:
     """ Model wrapper for bed"""
 
@@ -25,5 +27,7 @@ def fake2(fake_param: int = 1):
     :return:                                    boolean value
 
     """
+
+    logging.info('This is a log file for fake 2')
 
     return True
