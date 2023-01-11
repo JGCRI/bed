@@ -33,7 +33,8 @@ setup(
             "autodoc>=0.5.0",
             "twine>=4.0.1",
             "ipykernel>=6.15.1",
-            "sphinx>=6.0.0",
+            "sphinx>=4.0.2",
+            'sphinx-panels>=0.6.0',
             'sphinx-rtd-theme>=0.5.2',
             'sphinx-mathjax-offline>=0.0.1'
         ]
