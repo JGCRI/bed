@@ -1,25 +1,25 @@
-Contributing to **tethys**
+Contributing
 ========================
 
-Whether you find a typo in the documentation, find a bug, or want to develop functionality that you think will make **tethys** more robust, you are welcome to contribute!
+Whether you find a typo in the documentation, find a bug, or want to develop functionality that you think will make **bed** more robust, you are welcome to contribute!
 
 
 Opening issues
 ______________
 
-If you find a bug or would like to contribute a new feature, please `open an issue <https://github.com/JGCRI/tethys/issues>`_.
+If you find a bug or would like to contribute a new feature, please `open an issue <https://github.com/JGCRI/bed/issues>`_.
 
 
 Contribution workflow
 _____________________
 
-The following is the recommended workflow for contributing to **tethys**:
+The following is the recommended workflow for contributing to **bed**:
 
-1. `Fork the tethys repository <https://github.com/JGCRI/tethys/fork>`_ and then clone it locally:
+1. `Fork the bed repository <https://github.com/JGCRI/bed/fork>`_ and then clone it locally:
 
   .. code-block:: bash
 
-    git clone https://github.com/<your-user-name>/tethys
+    git clone https://github.com/<your-user-name>/bed
 
 
 2. Create a branch for your changes

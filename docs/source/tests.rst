@@ -1,10 +1,10 @@
 Tests
 =======
 
-bed.tests.tests
+bed.tests.test_config
 ---------------------
 
-.. automodule:: bed.tests.tests
+.. automodule:: bed.tests.test_config
    :members:
    :undoc-members:
    :show-inheritance:
