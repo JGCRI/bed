@@ -1,7 +1,21 @@
-pytemplate
-==========
+Modules
+=======
 
-.. toctree::
-   :maxdepth: 4
+bed.model
+-------------------
 
-   pytemplate
+.. automodule:: bed.model
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+bed.read_data
+-------------------
+
+.. automodule:: bed.read_data
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
