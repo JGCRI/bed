@@ -1,4 +1,5 @@
 from .model import *
+from .read_config import *
 from .read_data import *
 from .tests.test_config import *
 from .logger import *
