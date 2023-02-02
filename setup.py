@@ -30,6 +30,7 @@ setup(
     ],
     extras_require={
         'dev': [
+            "pytest",
             "autodoc>=0.5.0",
             "twine>=4.0.1",
             "ipykernel>=6.15.1",
