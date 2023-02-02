@@ -3,6 +3,7 @@ from .read_config import *
 from .read_data import *
 from .demand import *
 from .diagnostics import *
+from .clean_up import *
 from .tests.test_config import *
 from .logger import *
 

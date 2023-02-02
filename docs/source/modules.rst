@@ -9,16 +9,6 @@ bed.model
    :undoc-members:
    :show-inheritance:
 
-
-bed.read_config
--------------------
-
-.. automodule:: bed.read_config
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
 bed.read_data
 -------------------
 

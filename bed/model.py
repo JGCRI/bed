@@ -58,14 +58,3 @@ class Bed:
 
         # clean up and close
         # clean_up()
-
-    def clean_up(fake_param: int = 1):
-        """Fake function to remove.
-
-        :param fake_param:                          A fake integer param
-        :type fake_param:                           int
-        :return:                                    boolean value
-
-        """
-
-        return True
