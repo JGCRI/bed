@@ -1,17 +1,10 @@
 import logging
 
-# Inputs needed:
-#   k unitless calibration coefficient
-#   HDH heating degree hours
-#   CDH cooling degree hours
-#   n = thermal conductance (GJ/m2 hour C)
-#   R = unitless average surface-to-floor area ratio
-#   IG internal gain [GJ/m2]
-#   uh = region and sector-specific demand satition for heating
-#   uc = region and sector-specific demand satition for cooling
-#   i = per-capita income
-#   Ph = total price of service (weighted average of technologies used) heating
-#   Pc = total price of service (weighted average of technologies used) cooling
+# heating energy demand
+# dh = kh (HDH.n.R - IG)[ 1 - exp( - (ln2/uh) . (i/Ph) ) ]
+
+# cooling energy demand
+# dc = kc (CDH.n.R - IG)[ 1 - exp( - (ln2/uc) . (i/Pc) )]
 
 def fake(fake_param: int = 1):
     """Fake function to remove.
