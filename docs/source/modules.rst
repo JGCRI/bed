@@ -17,5 +17,13 @@ bed.read_data
    :undoc-members:
    :show-inheritance:
 
+bed.demand
+-------------------
+
+.. automodule:: bed.demand
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 

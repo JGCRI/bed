@@ -6,32 +6,11 @@
 License:  BSD 2-Clause, see LICENSE and DISCLAIMER files
 Copyright (c) 2022, Battelle Memorial Institute
 
-        # Calculate building energy demand
-        #   dh energy demand per unit floorspace (GJ/m2) heating
-        #   dh energy demand per unit floorspace (GJ/m2) heating
-
-        # Inputs needed:
-        #   k unitless calibration coefficient
-        #   HDH heating degree hours
-        #   CDH cooling degree hours
-        #   n = thermal conductance (GJ/m2 hour C)
-        #   R = unitless average surface-to-floor area ratio
-        #   IG internal gain [GJ/m2]
-        #   uh = region and sector-specific demand satition for heating
-        #   uc = region and sector-specific demand satition for cooling
-        #   i = per-capita income
-        #   Ph = total price of service (weighted average of technologies used) heating
-        #   Pc = total price of service (weighted average of technologies used) cooling
-
-        # heating energy demand
-        # dh = kh (HDH.n.R - IG)[ 1 - exp( - (ln2/uh) . (i/Ph) ) ]
-
-        # cooling energy demand
-        # dc = kc (CDH.n.R - IG)[ 1 - exp( - (ln2/uc) . (i/Pc) )]
-
 """
 
 from bed.read_config import read_config
+from bed.demand import demand
+
 
 class Bed:
     """ Model wrapper for bed"""
@@ -47,7 +26,9 @@ class Bed:
         # self.data = read_data(self.config)
 
         # Calculate building energy demand
-        # self.demand_heat = demand(self.data, type="heat")
+        self.demand_heat = demand(calibration_coefficient=1, degree_hours=1, thermal_conductance=1,
+                                  surface_to_floor_ratio=1, internal_gain=1, satiation=1,
+                                  income_per_capita=1, service_price=1)
         # self.demand_cool = demand(self.data, type = "cool")
 
         # diagnostics
