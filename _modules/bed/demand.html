@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bed.read_data &mdash; bed 0.0.0 documentation</title>
+  <title>bed.demand &mdash; bed 0.0.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" type="text/css" />
@@ -66,7 +66,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">bed.read_data</li>
+      <li class="breadcrumb-item active">bed.demand</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -75,8 +75,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for bed.read_data</h1><div class="highlight"><pre>
+  <h1>Source code for bed.demand</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="c1"># Calculate building energy demand</span>
+<span class="c1">#   dh energy demand per unit floorspace (GJ/m2) heating</span>
+<span class="c1">#   dh energy demand per unit floorspace (GJ/m2) heating</span>
 
 <span class="c1"># Inputs needed:</span>
 <span class="c1">#   k unitless calibration coefficient</span>
@@ -91,31 +96,35 @@
 <span class="c1">#   Ph = total price of service (weighted average of technologies used) heating</span>
 <span class="c1">#   Pc = total price of service (weighted average of technologies used) cooling</span>
 
-<div class="viewcode-block" id="fake"><a class="viewcode-back" href="../../modules.html#bed.read_data.fake">[docs]</a><span class="k">def</span> <span class="nf">fake</span><span class="p">(</span><span class="n">fake_param</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fake function to remove.</span>
+<span class="c1"># heating energy demand</span>
+<span class="c1"># dh = kh (HDH.n.R - IG)[ 1 - exp( - (ln2/uh) . (i/Ph) ) ]</span>
 
-<span class="sd">    :param fake_param:                          A fake integer</span>
-<span class="sd">    :type fake_param:                           int</span>
+<span class="c1"># cooling energy demand</span>
+<span class="c1"># dc = kc (CDH.n.R - IG)[ 1 - exp( - (ln2/uc) . (i/Pc) )]</span>
 
-<span class="sd">    :return:                                    boolean value</span>
-
+<div class="viewcode-block" id="demand"><a class="viewcode-back" href="../../modules.html#bed.demand.demand">[docs]</a><span class="k">def</span> <span class="nf">demand</span><span class="p">(</span><span class="n">calibration_coefficient</span> <span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">degree_hours</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">thermal_conductance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">surface_to_floor_ratio</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">internal_gain</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">satiation</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+           <span class="n">income_per_capita</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">service_price</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param calibration_coefficient:             Float for calibration coefficient (Unitless)</span>
+<span class="sd">    :param degree_hours:                        Array for degree hours (Hours)</span>
+<span class="sd">    :param thermal_conductance:                 Float for thermal conductance (GJ/m2 hour C)</span>
+<span class="sd">    :param surface_to_floor_ratio:              Float for surface to floor ratio (Unitless)</span>
+<span class="sd">    :param internal_gain:                       Float for Internal Gain (GJ/m2)</span>
+<span class="sd">    :param satiation:                           Array for region and sector-specific demand satiation (unitless)</span>
+<span class="sd">    :param income_per_capita:                   Array for per-capita income (2010 USD)</span>
+<span class="sd">    :param service_price:                       Array for weighted average of technologies used (2010 USD)</span>
+<span class="sd">    :return:                                    Array for demand</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="kc">True</span></div>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Starting function demand.&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="fake2"><a class="viewcode-back" href="../../modules.html#bed.read_data.fake2">[docs]</a><span class="k">def</span> <span class="nf">fake2</span><span class="p">(</span><span class="n">fake_param</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fake function to remove.</span>
+    <span class="n">technical_component</span> <span class="o">=</span> <span class="n">degree_hours</span> <span class="o">*</span> <span class="n">thermal_conductance</span> <span class="o">*</span> <span class="n">surface_to_floor_ratio</span> <span class="o">-</span> <span class="n">internal_gain</span>
+    <span class="n">economic_component</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">satiation</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">income_per_capita</span> <span class="o">/</span> <span class="n">service_price</span><span class="p">))</span>
+    <span class="n">demand</span> <span class="o">=</span> <span class="n">calibration_coefficient</span> <span class="o">*</span> <span class="n">technical_component</span> <span class="o">*</span> <span class="n">economic_component</span>
 
-<span class="sd">    :param fake_param:                          A fake integer</span>
-<span class="sd">    :type fake_param:                           int</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Function demand completed.&#39;</span><span class="p">)</span>
 
-<span class="sd">    :return:                                    boolean value</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;This is a log file for fake 2&#39;</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="kc">True</span></div>
+    <span class="k">return</span> <span class="n">demand</span></div>
 </pre></div>
 
            </div>

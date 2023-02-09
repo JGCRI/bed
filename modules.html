@@ -30,11 +30,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> bed
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            bed
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -46,6 +50,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Modules</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-bed.model">bed.model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-bed.read_data">bed.read_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-bed.demand">bed.demand</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tests.html">Tests</a></li>
@@ -67,7 +72,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Modules</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
@@ -87,27 +92,6 @@
 &#64;Project: bed v0.0</p>
 <p>License:  BSD 2-Clause, see LICENSE and DISCLAIMER files
 Copyright (c) 2022, Battelle Memorial Institute</p>
-<blockquote>
-<div><p># Calculate building energy demand
-#   dh energy demand per unit floorspace (GJ/m2) heating
-#   dh energy demand per unit floorspace (GJ/m2) heating</p>
-<p># Inputs needed:
-#   k unitless calibration coefficient
-#   HDH heating degree hours
-#   CDH cooling degree hours
-#   n = thermal conductance (GJ/m2 hour C)
-#   R = unitless average surface-to-floor area ratio
-#   IG internal gain [GJ/m2]
-#   uh = region and sector-specific demand satition for heating
-#   uc = region and sector-specific demand satition for cooling
-#   i = per-capita income
-#   Ph = total price of service (weighted average of technologies used) heating
-#   Pc = total price of service (weighted average of technologies used) cooling</p>
-<p># heating energy demand
-# dh = kh (HDH.n.R - IG)[ 1 - exp( - (ln2/uh) . (i/Ph) ) ]</p>
-<p># cooling energy demand
-# dc = kc (CDH.n.R - IG)[ 1 - exp( - (ln2/uc) . (i/Pc) )]</p>
-</div></blockquote>
 <dl class="py class">
 <dt class="sig sig-object py" id="bed.model.Bed">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bed.model.</span></span><span class="sig-name descname"><span class="pre">Bed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'config'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bed/model.html#Bed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bed.model.Bed" title="Permalink to this definition"></a></dt>
@@ -142,6 +126,31 @@ Copyright (c) 2022, Battelle Memorial Institute</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>boolean value</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-bed.demand">
+<span id="bed-demand"></span><h2>bed.demand<a class="headerlink" href="#module-bed.demand" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="bed.demand.demand">
+<span class="sig-prename descclassname"><span class="pre">bed.demand.</span></span><span class="sig-name descname"><span class="pre">demand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_coefficient</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degree_hours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thermal_conductance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface_to_floor_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">internal_gain</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">satiation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">income_per_capita</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">service_price</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bed/demand.html#demand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bed.demand.demand" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>calibration_coefficient</strong> – Float for calibration coefficient (Unitless)</p></li>
+<li><p><strong>degree_hours</strong> – Array for degree hours (Hours)</p></li>
+<li><p><strong>thermal_conductance</strong> – Float for thermal conductance (GJ/m2 hour C)</p></li>
+<li><p><strong>surface_to_floor_ratio</strong> – Float for surface to floor ratio (Unitless)</p></li>
+<li><p><strong>internal_gain</strong> – Float for Internal Gain (GJ/m2)</p></li>
+<li><p><strong>satiation</strong> – Array for region and sector-specific demand satiation (unitless)</p></li>
+<li><p><strong>income_per_capita</strong> – Array for per-capita income (2010 USD)</p></li>
+<li><p><strong>service_price</strong> – Array for weighted average of technologies used (2010 USD)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array for demand</p>
 </dd>
 </dl>
 </dd></dl>

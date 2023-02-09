@@ -27,11 +27,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> bed
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            bed
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -60,7 +64,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
       <li class="breadcrumb-item active">bed.model</li>
       <li class="wy-breadcrumbs-aside">
@@ -80,32 +84,11 @@
 <span class="sd">License:  BSD 2-Clause, see LICENSE and DISCLAIMER files</span>
 <span class="sd">Copyright (c) 2022, Battelle Memorial Institute</span>
 
-<span class="sd">        # Calculate building energy demand</span>
-<span class="sd">        #   dh energy demand per unit floorspace (GJ/m2) heating</span>
-<span class="sd">        #   dh energy demand per unit floorspace (GJ/m2) heating</span>
-
-<span class="sd">        # Inputs needed:</span>
-<span class="sd">        #   k unitless calibration coefficient</span>
-<span class="sd">        #   HDH heating degree hours</span>
-<span class="sd">        #   CDH cooling degree hours</span>
-<span class="sd">        #   n = thermal conductance (GJ/m2 hour C)</span>
-<span class="sd">        #   R = unitless average surface-to-floor area ratio</span>
-<span class="sd">        #   IG internal gain [GJ/m2]</span>
-<span class="sd">        #   uh = region and sector-specific demand satition for heating</span>
-<span class="sd">        #   uc = region and sector-specific demand satition for cooling</span>
-<span class="sd">        #   i = per-capita income</span>
-<span class="sd">        #   Ph = total price of service (weighted average of technologies used) heating</span>
-<span class="sd">        #   Pc = total price of service (weighted average of technologies used) cooling</span>
-
-<span class="sd">        # heating energy demand</span>
-<span class="sd">        # dh = kh (HDH.n.R - IG)[ 1 - exp( - (ln2/uh) . (i/Ph) ) ]</span>
-
-<span class="sd">        # cooling energy demand</span>
-<span class="sd">        # dc = kc (CDH.n.R - IG)[ 1 - exp( - (ln2/uc) . (i/Pc) )]</span>
-
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">bed.read_config</span> <span class="kn">import</span> <span class="n">read_config</span>
+<span class="kn">from</span> <span class="nn">bed.demand</span> <span class="kn">import</span> <span class="n">demand</span>
+
 
 <div class="viewcode-block" id="Bed"><a class="viewcode-back" href="../../modules.html#bed.model.Bed">[docs]</a><span class="k">class</span> <span class="nc">Bed</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Model wrapper for bed&quot;&quot;&quot;</span>
@@ -115,13 +98,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="mi">5</span>
 
         <span class="c1"># Read in Config File</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">read_config</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">read_config</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
 
         <span class="c1"># Read data</span>
         <span class="c1"># self.data = read_data(self.config)</span>
 
         <span class="c1"># Calculate building energy demand</span>
-        <span class="c1"># self.demand_heat = demand(self.data, type=&quot;heat&quot;)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">demand_heat</span> <span class="o">=</span> <span class="n">demand</span><span class="p">(</span><span class="n">calibration_coefficient</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">degree_hours</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">thermal_conductance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                  <span class="n">surface_to_floor_ratio</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">internal_gain</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">satiation</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                  <span class="n">income_per_capita</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">service_price</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
         <span class="c1"># self.demand_cool = demand(self.data, type = &quot;cool&quot;)</span>
 
         <span class="c1"># diagnostics</span>
