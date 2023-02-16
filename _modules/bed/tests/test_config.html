@@ -80,19 +80,6 @@
 <span class="kn">import</span> <span class="nn">pytest</span>
 <span class="kn">import</span> <span class="nn">bed</span>
 
-<div class="viewcode-block" id="test_fake"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_fake">[docs]</a><span class="k">def</span> <span class="nf">test_fake</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    test fake function</span>
-<span class="sd">    :return:</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">bed</span><span class="o">.</span><span class="n">fake</span><span class="p">()</span> <span class="o">==</span> <span class="kc">True</span></div>
-
-<div class="viewcode-block" id="test_fake2"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_fake2">[docs]</a><span class="k">def</span> <span class="nf">test_fake2</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    test fake2 function</span>
-<span class="sd">    :return:</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">bed</span><span class="o">.</span><span class="n">fake2</span><span class="p">()</span> <span class="o">==</span> <span class="kc">True</span></div>
 
 <div class="viewcode-block" id="test_class"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_class">[docs]</a><span class="k">def</span> <span class="nf">test_class</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -100,8 +87,28 @@
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">a1</span> <span class="o">=</span> <span class="n">bed</span><span class="o">.</span><span class="n">Bed</span><span class="p">()</span>  <span class="c1"># Coming from Model.py</span>
-    <span class="n">a1</span><span class="o">.</span><span class="n">var1</span>
-    <span class="k">assert</span> <span class="n">a1</span><span class="o">.</span><span class="n">var1</span> <span class="o">==</span> <span class="mf">0.125</span></div>
+    <span class="k">assert</span> <span class="n">a1</span><span class="o">.</span><span class="n">degree_hours</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">a1</span><span class="o">.</span><span class="n">demand_heat</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="test_demand"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_demand">[docs]</a><span class="k">def</span> <span class="nf">test_demand</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    test demand function</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">bed</span><span class="o">.</span><span class="n">demand</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">val</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="test_temperature_to_degree_hours"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_temperature_to_degree_hours">[docs]</a><span class="k">def</span> <span class="nf">test_temperature_to_degree_hours</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    test temperature_to_degree_hours function</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">bed</span><span class="o">.</span><span class="n">temperature_to_degree_hours</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">val</span> <span class="o">==</span> <span class="mi">1</span></div>
 </pre></div>
 
            </div>

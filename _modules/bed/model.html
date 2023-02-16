@@ -87,15 +87,13 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">bed.read_config</span> <span class="kn">import</span> <span class="n">read_config</span>
-<span class="kn">from</span> <span class="nn">bed.demand</span> <span class="kn">import</span> <span class="n">demand</span>
+<span class="kn">from</span> <span class="nn">bed.demand</span> <span class="kn">import</span> <span class="o">*</span>
 
 
 <div class="viewcode-block" id="Bed"><a class="viewcode-back" href="../../modules.html#bed.model.Bed">[docs]</a><span class="k">class</span> <span class="nc">Bed</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Model wrapper for bed&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_file</span><span class="o">=</span><span class="s1">&#39;config&#39;</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">var1</span> <span class="o">=</span> <span class="mf">0.125</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="mi">5</span>
 
         <span class="c1"># Read in Config File</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">read_config</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
@@ -103,8 +101,12 @@
         <span class="c1"># Read data</span>
         <span class="c1"># self.data = read_data(self.config)</span>
 
+        <span class="c1"># Calculate degree hours</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">degree_hours</span> <span class="o">=</span> <span class="n">temperature_to_degree_hours</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">weighted_population</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                                        <span class="n">temperature_unit</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">comfortable_temperature</span><span class="o">=</span><span class="mi">65</span><span class="p">)</span>
+
         <span class="c1"># Calculate building energy demand</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">demand_heat</span> <span class="o">=</span> <span class="n">demand</span><span class="p">(</span><span class="n">calibration_coefficient</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">degree_hours</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">thermal_conductance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">demand_heat</span> <span class="o">=</span> <span class="n">demand</span><span class="p">(</span><span class="n">calibration_coefficient</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">degree_hours</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">degree_hours</span><span class="p">,</span> <span class="n">thermal_conductance</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                                   <span class="n">surface_to_floor_ratio</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">internal_gain</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">satiation</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                                   <span class="n">income_per_capita</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">service_price</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
         <span class="c1"># self.demand_cool = demand(self.data, type = &quot;cool&quot;)</span>
