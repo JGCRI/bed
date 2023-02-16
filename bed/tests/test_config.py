@@ -2,19 +2,6 @@
 import pytest
 import bed
 
-def test_fake():
-    """
-    test fake function
-    :return:
-    """
-    assert bed.fake() == True
-
-def test_fake2():
-    """
-    test fake2 function
-    :return:
-    """
-    assert bed.fake2() == True
 
 def test_class():
     """
@@ -22,5 +9,25 @@ def test_class():
     :return:
     """
     a1 = bed.Bed()  # Coming from Model.py
-    a1.var1
-    assert a1.var1 == 0.125
+    assert a1.degree_hours == 1
+    assert a1.demand_heat == 0
+
+
+def test_demand():
+    """
+    test demand function
+    :return:
+    """
+    val = bed.demand()
+
+    assert val == 0
+
+
+def test_temperature_to_degree_hours():
+    """
+    test temperature_to_degree_hours function
+    :return:
+    """
+    val = bed.temperature_to_degree_hours()
+
+    assert val == 1

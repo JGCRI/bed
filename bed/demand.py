@@ -47,3 +47,21 @@ def demand(calibration_coefficient =1, degree_hours=1, thermal_conductance=1, su
     logging.info('Function demand completed.')
 
     return demand
+
+
+def temperature_to_degree_hours(temperature=1, weighted_population=1, temperature_unit='F', comfortable_temperature=65):
+    """
+
+    :param temperature:                         Array for temperature (F)
+    :param temperature_unit:                    String for temperature unit
+    :param comfortable_temperature:             Array for comfortable temperature
+    :param weighted_population:                 Array for weighted population (unitless)
+    :return:
+    """
+    logging.info('Starting function temperature_to_degree_hours.')
+
+    degree_hours = 1
+
+    logging.info('Function temperature_to_degree_hours completed.')
+
+    return degree_hours

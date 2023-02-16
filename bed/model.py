@@ -9,15 +9,13 @@ Copyright (c) 2022, Battelle Memorial Institute
 """
 
 from bed.read_config import read_config
-from bed.demand import demand
+from bed.demand import *
 
 
 class Bed:
     """ Model wrapper for bed"""
 
     def __init__(self, config_file='config'):
-        self.var1 = 0.125
-        self.var = 5
 
         # Read in Config File
         self.config = read_config(config_file)
@@ -25,8 +23,12 @@ class Bed:
         # Read data
         # self.data = read_data(self.config)
 
+        # Calculate degree hours
+        self.degree_hours = temperature_to_degree_hours(temperature=1, weighted_population=1,
+                                                        temperature_unit='F', comfortable_temperature=65)
+
         # Calculate building energy demand
-        self.demand_heat = demand(calibration_coefficient=1, degree_hours=1, thermal_conductance=1,
+        self.demand_heat = demand(calibration_coefficient=1, degree_hours=self.degree_hours, thermal_conductance=1,
                                   surface_to_floor_ratio=1, internal_gain=1, satiation=1,
                                   income_per_capita=1, service_price=1)
         # self.demand_cool = demand(self.data, type = "cool")
