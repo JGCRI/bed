@@ -13,6 +13,17 @@ import logging
 #   Ph = total price of service (weighted average of technologies used) heating
 #   Pc = total price of service (weighted average of technologies used) cooling
 
+# class Data:
+#
+#     def __init__(self, config):
+#
+#         self.population = load_population_data(config.population_file)
+#
+#         self.temperature = load_temperature_data(config.temperature_file)
+#
+#     def load_data(self):
+
+
 def fake(fake_param: int = 1):
     """Fake function to remove.
 
