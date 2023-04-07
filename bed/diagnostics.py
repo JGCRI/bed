@@ -1,5 +1,6 @@
 import logging
 
+
 def diagnostics(fake_param: int = 1):
     """Fake function to remove.
 
