@@ -17,6 +17,14 @@ bed.read_data
    :undoc-members:
    :show-inheritance:
 
+bed.get_data
+-------------------
+
+.. automodule:: bed.get_data
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 bed.demand
 -------------------
 
@@ -24,6 +32,15 @@ bed.demand
    :members:
    :undoc-members:
    :show-inheritance:
+
+bed.write_outputs
+-------------------
+
+.. automodule:: bed.write_outputs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 
 
