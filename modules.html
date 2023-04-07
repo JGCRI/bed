@@ -48,11 +48,11 @@
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Modules</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#bed-model">bed.model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-bed.model">bed.model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-bed.read_data">bed.read_data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#bed-get-data">bed.get_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-bed.get_data">bed.get_data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-bed.demand">bed.demand</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#bed-write-outputs">bed.write_outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-bed.write_outputs">bed.write_outputs</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tests.html">Tests</a></li>
@@ -87,8 +87,20 @@
              
   <section id="modules">
 <h1>Modules<a class="headerlink" href="#modules" title="Permalink to this headline"></a></h1>
-<section id="bed-model">
-<h2>bed.model<a class="headerlink" href="#bed-model" title="Permalink to this headline"></a></h2>
+<section id="module-bed.model">
+<span id="bed-model"></span><h2>bed.model<a class="headerlink" href="#module-bed.model" title="Permalink to this headline"></a></h2>
+<p>&#64;Date:
+&#64;authors:
+&#64;Project: bed v0.0</p>
+<p>License:  BSD 2-Clause, see LICENSE and DISCLAIMER files
+Copyright (c) 2022, Battelle Memorial Institute</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="bed.model.Bed">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bed.model.</span></span><span class="sig-name descname"><span class="pre">Bed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'config'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bed/model.html#Bed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bed.model.Bed" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Model wrapper for bed</p>
+</dd></dl>
+
 </section>
 <section id="module-bed.read_data">
 <span id="bed-read-data"></span><h2>bed.read_data<a class="headerlink" href="#module-bed.read_data" title="Permalink to this headline"></a></h2>
@@ -100,8 +112,19 @@
 </dd></dl>
 
 </section>
-<section id="bed-get-data">
-<h2>bed.get_data<a class="headerlink" href="#bed-get-data" title="Permalink to this headline"></a></h2>
+<section id="module-bed.get_data">
+<span id="bed-get-data"></span><h2>bed.get_data<a class="headerlink" href="#module-bed.get_data" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="bed.get_data.get_data">
+<span class="sig-prename descclassname"><span class="pre">bed.get_data.</span></span><span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/home/runner/work/bed/bed/docs/downloaded_data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://github.com/JGCRI/pytemplate/raw/dev/examples.zip'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bed/get_data.html#get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bed.get_data.get_data" title="Permalink to this definition"></a></dt>
+<dd><p>Download and unpack example data supplement from Zenodo current installed distribution.
+:param folder:              Full path to the folder to save data to
+:type folder:               str
+:param link:                Full path to data download link
+:type link:                 str
+return                      save_path as a string</p>
+</dd></dl>
+
 </section>
 <section id="module-bed.demand">
 <span id="bed-demand"></span><h2>bed.demand<a class="headerlink" href="#module-bed.demand" title="Permalink to this headline"></a></h2>
@@ -146,8 +169,22 @@
 </dd></dl>
 
 </section>
-<section id="bed-write-outputs">
-<h2>bed.write_outputs<a class="headerlink" href="#bed-write-outputs" title="Permalink to this headline"></a></h2>
+<section id="module-bed.write_outputs">
+<span id="bed-write-outputs"></span><h2>bed.write_outputs<a class="headerlink" href="#module-bed.write_outputs" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="bed.write_outputs.write_outputs">
+<span class="sig-prename descclassname"><span class="pre">bed.write_outputs.</span></span><span class="sig-name descname"><span class="pre">write_outputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fake_param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bed/write_outputs.html#write_outputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bed.write_outputs.write_outputs" title="Permalink to this definition"></a></dt>
+<dd><p>Fake function to remove.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fake_param</strong> (<em>int</em>) – A fake integer</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>boolean value</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 

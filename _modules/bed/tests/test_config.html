@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bed.tests.test_config &mdash; bed 0.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/panels-bootstrap.5fd3999ee7762ccc51105388f4a9d115.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            bed
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guide.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tests.html">Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../acknowledgement.html">Acknowledgement</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">bed</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">bed.tests.test_config</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for bed.tests.test_config</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Import libraries</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">bed</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<span class="k">def</span> <span class="nf">test_class</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    test class</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a1</span> <span class="o">=</span> <span class="n">bed</span><span class="o">.</span><span class="n">Bed</span><span class="p">()</span>  <span class="c1"># Coming from Model.py</span>
+    <span class="k">assert</span> <span class="n">a1</span><span class="o">.</span><span class="n">degree_hours</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">a1</span><span class="o">.</span><span class="n">demand_heat</span> <span class="o">==</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="test_demand"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_demand">[docs]</a><span class="k">def</span> <span class="nf">test_demand</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    test demand function</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">bed</span><span class="o">.</span><span class="n">demand</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">val</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="test_temperature_to_degree_hours"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_temperature_to_degree_hours">[docs]</a><span class="k">def</span> <span class="nf">test_temperature_to_degree_hours</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    test temperature_to_degree_hours function</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">bed</span><span class="o">.</span><span class="n">temperature_to_degree_hours</span><span class="p">()</span>
+
+    <span class="k">assert</span> <span class="n">val</span> <span class="o">==</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="test_get_data"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_get_data">[docs]</a><span class="k">def</span> <span class="nf">test_get_data</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    test clean_up function</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">bed</span><span class="o">.</span><span class="n">get_data</span><span class="p">())</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s1">&#39;downloaded_data/examples&#39;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="test_read_config"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_read_config">[docs]</a><span class="k">def</span> <span class="nf">test_read_config</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    test read_config</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">downloaded_data_path</span> <span class="o">=</span> <span class="n">bed</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+    <span class="n">example_config</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">downloaded_data_path</span><span class="p">,</span> <span class="s1">&#39;example_config.yml&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">bed</span><span class="o">.</span><span class="n">read_config</span><span class="p">(</span><span class="n">example_config</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;path_example_data_set&#39;</span><span class="p">:</span> <span class="s1">&#39;example_data.csv&#39;</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="test_read_data"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_read_data">[docs]</a><span class="k">def</span> <span class="nf">test_read_data</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    test method</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">downloaded_data_path</span> <span class="o">=</span> <span class="n">bed</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+    <span class="n">example_config</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">downloaded_data_path</span><span class="p">,</span> <span class="s1">&#39;example_config.yml&#39;</span><span class="p">)</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">bed</span><span class="o">.</span><span class="n">read_config</span><span class="p">(</span><span class="n">example_config</span><span class="p">)</span>
+    <span class="n">example_key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">example_value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">downloaded_data_path</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">updated_config</span> <span class="o">=</span> <span class="n">config</span>
+    <span class="n">updated_config</span><span class="p">[</span><span class="n">example_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">example_value</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">bed</span><span class="o">.</span><span class="n">Data</span><span class="p">(</span><span class="n">updated_config</span><span class="p">))</span><span class="o">.</span><span class="n">example_data_set</span>
+    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="test_method"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_method">[docs]</a><span class="k">def</span> <span class="nf">test_method</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    test method</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">bed</span><span class="o">.</span><span class="n">demand</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">bed</span><span class="o">.</span><span class="n">temperature_to_degree_hours</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="test_write_outputs"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_write_outputs">[docs]</a><span class="k">def</span> <span class="nf">test_write_outputs</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    test diagnostics function</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">bed</span><span class="o">.</span><span class="n">write_outputs</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;outputs&#39;</span></div>
+
+
+<div class="viewcode-block" id="test_diagnostics"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_diagnostics">[docs]</a><span class="k">def</span> <span class="nf">test_diagnostics</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    test diagnostics function</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">bed</span><span class="o">.</span><span class="n">diagnostics</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;diagnostics&#39;</span></div>
+
+
+<div class="viewcode-block" id="test_clean_up"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_clean_up">[docs]</a><span class="k">def</span> <span class="nf">test_clean_up</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    test clean_up function</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">bed</span><span class="o">.</span><span class="n">clean_up</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;clean up&#39;</span></div>
+
+
+<div class="viewcode-block" id="test_class"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_class">[docs]</a><span class="k">def</span> <span class="nf">test_class</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    test class</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">bed</span><span class="o">.</span><span class="n">Bed</span><span class="p">()</span><span class="o">.</span><span class="n">config</span> <span class="o">==</span> <span class="s1">&#39;config&#39;</span>
+    <span class="k">assert</span> <span class="n">bed</span><span class="o">.</span><span class="n">Bed</span><span class="p">()</span><span class="o">.</span><span class="n">degree_hours</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">bed</span><span class="o">.</span><span class="n">Bed</span><span class="p">()</span><span class="o">.</span><span class="n">demand_heat</span> <span class="o">==</span> <span class="mi">0</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, I.M. Human.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
