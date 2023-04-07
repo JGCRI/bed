@@ -13,7 +13,7 @@ import logging
 #   Ph = total price of service (weighted average of technologies used) heating
 #   Pc = total price of service (weighted average of technologies used) cooling
 
-def fake(fake_param: int = 1):
+def clean_up(fake_param: int = 1):
     """Fake function to remove.
 
     :param fake_param:                          A fake integer
@@ -23,18 +23,6 @@ def fake(fake_param: int = 1):
 
     """
 
-    return True
+    logging.info('This is a log file for clean up')
 
-def fake2(fake_param: int = 1):
-    """Fake function to remove.
-
-    :param fake_param:                          A fake integer
-    :type fake_param:                           int
-
-    :return:                                    boolean value
-
-    """
-
-    logging.info('This is a log file for fake 2')
-
-    return True
+    return 'clean up'

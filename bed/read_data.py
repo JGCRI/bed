@@ -1,4 +1,5 @@
 import logging
+import pandas as pd
 
 # Inputs needed:
 #   k unitless calibration coefficient
@@ -13,39 +14,20 @@ import logging
 #   Ph = total price of service (weighted average of technologies used) heating
 #   Pc = total price of service (weighted average of technologies used) cooling
 
-# class Data:
-#
-#     def __init__(self, config):
-#
-#         self.population = load_population_data(config.population_file)
-#
-#         self.temperature = load_temperature_data(config.temperature_file)
-#
-#     def load_data(self):
 
+class Data:
+    """ Data class"""
 
-def fake(fake_param: int = 1):
-    """Fake function to remove.
+    def __init__(self, config=''):
+        """
+        :param config:         configuration file path
+        :type config:          yaml
+        :return:               Data
+        """
 
-    :param fake_param:                          A fake integer
-    :type fake_param:                           int
+        logging.info('Starting function read_config...')
 
-    :return:                                    boolean value
+        self.config = config
 
-    """
-
-    return True
-
-def fake2(fake_param: int = 1):
-    """Fake function to remove.
-
-    :param fake_param:                          A fake integer
-    :type fake_param:                           int
-
-    :return:                                    boolean value
-
-    """
-
-    logging.info('This is a log file for fake 2')
-
-    return True
+        if config != '':
+            self.example_data_set = pd.read_csv(config['path_example_data_set'])
