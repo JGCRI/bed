@@ -27,7 +27,9 @@ setup(
     install_requires=[
         "numpy>=1.23",
         "PyYAML>=6",
-        "pandas>=1.4.2"
+        "pandas>=1.4.2",
+        "requests>=2.20.1",
+        "tqdm>=4.64.1"
     ],
     extras_require={
         'dev': [
