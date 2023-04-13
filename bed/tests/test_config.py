@@ -9,9 +9,12 @@ def test_class():
     test class
     :return:
     """
-    a1 = bed.Bed()  # Coming from Model.py
-    assert a1.degree_hours == 1
-    assert a1.demand_heat == 0
+    downloaded_data_path = bed.get_data()
+    example_config = os.path.join(downloaded_data_path, 'example_config.yml')
+    c = bed.Bed(example_config)  # Coming from Model.py
+    assert c.degree_hours == 1
+    assert c.demand_heat == 0
+    assert c.config == {'path_example_data_set': 'example_data.csv'}
 
 
 def test_demand():
