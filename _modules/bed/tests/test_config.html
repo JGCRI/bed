@@ -87,9 +87,12 @@
 <span class="sd">    test class</span>
 <span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">a1</span> <span class="o">=</span> <span class="n">bed</span><span class="o">.</span><span class="n">Bed</span><span class="p">()</span>  <span class="c1"># Coming from Model.py</span>
-    <span class="k">assert</span> <span class="n">a1</span><span class="o">.</span><span class="n">degree_hours</span> <span class="o">==</span> <span class="mi">1</span>
-    <span class="k">assert</span> <span class="n">a1</span><span class="o">.</span><span class="n">demand_heat</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="n">downloaded_data_path</span> <span class="o">=</span> <span class="n">bed</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+    <span class="n">example_config</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">downloaded_data_path</span><span class="p">,</span> <span class="s1">&#39;example_config.yml&#39;</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">bed</span><span class="o">.</span><span class="n">Bed</span><span class="p">(</span><span class="n">example_config</span><span class="p">)</span>  <span class="c1"># Coming from Model.py</span>
+    <span class="k">assert</span> <span class="n">c</span><span class="o">.</span><span class="n">degree_hours</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">c</span><span class="o">.</span><span class="n">demand_heat</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">c</span><span class="o">.</span><span class="n">config</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;path_example_data_set&#39;</span><span class="p">:</span> <span class="s1">&#39;example_data.csv&#39;</span><span class="p">}</span>
 
 
 <div class="viewcode-block" id="test_demand"><a class="viewcode-back" href="../../../tests.html#bed.tests.test_config.test_demand">[docs]</a><span class="k">def</span> <span class="nf">test_demand</span><span class="p">():</span>

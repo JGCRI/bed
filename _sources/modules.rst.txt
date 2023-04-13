@@ -41,6 +41,12 @@ bed.write_outputs
    :undoc-members:
    :show-inheritance:
 
+bed.clean_up
+-------------------
 
+.. automodule:: bed.clean_up
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 
