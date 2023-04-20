@@ -29,7 +29,9 @@ setup(
         "PyYAML>=6",
         "pandas>=1.4.2",
         "requests>=2.20.1",
-        "tqdm>=4.64.1"
+        "tqdm>=4.64.1",
+        "xarray",
+        "matplotlib"
     ],
     extras_require={
         'dev': [
