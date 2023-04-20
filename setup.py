@@ -30,8 +30,8 @@ setup(
         "pandas>=1.4.2",
         "requests>=2.20.1",
         "tqdm>=4.64.1",
-        "xarray",
-        "matplotlib"
+        "xarray>=2022.3.0",
+        "matplotlib>=3.5.1"
     ],
     extras_require={
         'dev': [
