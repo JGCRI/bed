@@ -16,8 +16,8 @@ def diagnostics(fake_param: int = 1):
 
     logging.info('This is a log file for diagnostics')
 
-    # Read a xarray
-    # ds = xr.open_dataset(r'C:\WorkSpace\LCLUC-Morocco\wrfout_d03_2014-08-09_Morocco_2014.nc')
+    # Read a xarrayimport bed
+    # ds = xr.open_dataset(r'C:\Z\models\bed_data\wrfout_d03_2014-08-09_Morocco_2014.nc')
     # ds
     #
     # ds.data_vars
@@ -31,7 +31,7 @@ def diagnostics(fake_param: int = 1):
     # t2.values.shape
     # t2.coords
     #
-    # t2.plot(x="west_east", y="south_north", col="Time")
+    # t2.plot(x="west_east", y="south_north", col="Cycle")
     # plt.show()
 
     # Choose type of aggregation of the data

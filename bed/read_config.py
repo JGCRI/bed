@@ -21,6 +21,7 @@ def read_config(config_file=""):
     """
 
     logging.info('Starting function read_config...')
+    print('Starting function read_config...')
 
     path_to_config = os.path.abspath(config_file)
     file_exists = os.path.exists(path_to_config)
