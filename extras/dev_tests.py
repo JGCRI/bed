@@ -8,18 +8,18 @@ import os
 # Get example data
 data_folder = bed.get_data()
 #
-# a1 = bed.Bed(config_file= os.path.join(data_folder,"example_config.yml")) # Coming from Model.py
-# bed.read_config(config_file= os.path.join(data_folder,"example_config.yml"))
-# a1.config
-# a1.degree_hours
-# a1.demand_heat
-# bed.diagnostics()
-# bed.clean_up()
-# bed.write_outputs()
-# bed.demand()
-# a1.demand_heat
-# bed.temperature_to_degree_hours()
-# a1.degree_hours
+a1 = bed.Bed(config_file= os.path.join(data_folder,"example_config.yml")) # Coming from Model.py
+bed.read_config(config_file= os.path.join(data_folder,"example_config.yml"))
+a1.config
+a1.degree_hours
+a1.demand_heat
+bed.diagnostics()
+bed.clean_up()
+bed.write_outputs()
+bed.demand()
+a1.demand_heat
+bed.temperature_to_degree_hours()
+a1.degree_hours
 #
 # bed.get_data()
 #
