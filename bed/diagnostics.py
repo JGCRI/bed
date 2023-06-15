@@ -4,11 +4,13 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 
-def diagnostics(fake_param: int = 1):
+def diagnostics(fake_param: int = 1, data=None):
     """Fake function to remove.
 
     :param fake_param:                          A fake integer
     :type fake_param:                           int
+    :param data:                                Data read from config file paths
+    :type data:                                 class
 
     :return:                                    boolean value
 
@@ -16,28 +18,23 @@ def diagnostics(fake_param: int = 1):
 
     logging.info('This is a log file for diagnostics')
 
-    # Read a xarrayimport bed
-    # ds = xr.open_dataset(r'C:\Z\models\bed_data\wrfout_d03_2014-08-09_Morocco_2014.nc')
-    # ds
-    #
-    # ds.data_vars
-    #
-    # ds.T2.XTIME
-    #
-    # t2_cold = ds.T2.isel(Time=1)
-    # t2_hot = ds.T2.isel(Time=12)
-    #
-    # t2 = xr.concat([t2_cold, t2_hot], pd.Index(['Night', 'Day'], name='Cycle'))
-    # t2.values.shape
-    # t2.coords
-    #
-    # t2.plot(x="west_east", y="south_north", col="Cycle")
-    # plt.show()
+    # Plot Temperature Data
+    logging.info('Plotting diagnostics for temperature data...')
 
-    # Choose type of aggregation of the data
+    if data != None:
+        ds = data.temperature
+        ds.data_vars
+        ds.T2.XTIME
+        t2_cold = ds.T2.isel(Time=1)
+        t2_hot = ds.T2.isel(Time=12)
+        t2 = xr.concat([t2_cold, t2_hot], pd.Index(['Night', 'Day'], name='Cycle'))
+        t2.values.shape
+        t2.coords
+        plot_t2 = t2.plot(x="west_east", y="south_north", col="Cycle")
+        plt.show()
+        # Save the plot into the diagnostics folder created by read_data()
 
-    # Choose time slot to plot (user can define the time as well)
-
+    logging.info('Plotting diagnostics for temperature data complete.')
 
 
     return 'diagnostics'

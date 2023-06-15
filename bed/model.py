@@ -9,19 +9,21 @@ Copyright (c) 2022, Battelle Memorial Institute
 """
 
 from bed.read_config import read_config
+from bed.read_data import Data
+from bed.diagnostics import diagnostics
 from bed.demand import *
 
 
 class Bed:
     """ Model wrapper for bed"""
 
-    def __init__(self, config_file='config'):
+    def __init__(self, config_file=''):
 
         # Read in Config File
         self.config = read_config(config_file)
 
         # Read data
-        # self.data = read_data(self.config)
+        self.data = Data(self.config)
 
         # Calculate degree hours
         self.degree_hours = temperature_to_degree_hours(temperature=1, weighted_population=1,
@@ -34,7 +36,7 @@ class Bed:
         # self.demand_cool = demand(self.data, type = "cool")
 
         # diagnostics
-        # diagnostics()
+        diagnostics(self.data)
 
         # write outputs
         # write_outputs()

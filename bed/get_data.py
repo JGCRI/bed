@@ -62,6 +62,8 @@ def get_data(folder=os.path.join(os.getcwd(), 'downloaded_data'),
                 zipped.extractall(path=folder)
                 logging.info(f'Unzipping: {zipped} to folder: {os.path.abspath(folder)} complete.')
 
+        save_path = os.path.splitext(save_path)[0]
+
     else:
         logging.warning(f'{folder} is not empty so download has been skipped. '
                      f'To download data again please delete existing folder or '
@@ -69,6 +71,7 @@ def get_data(folder=os.path.join(os.getcwd(), 'downloaded_data'),
 
         save_path = os.path.join(folder,"examples")
 
+    logging.info(f'Data unzipped to: {save_path}')
     logging.info('Function get_data complete.')
 
     return save_path

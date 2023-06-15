@@ -1,5 +1,7 @@
 import logging
 import pandas as pd
+import xarray as xr
+import os as os
 
 # Inputs needed:
 #   k unitless calibration coefficient
@@ -30,4 +32,13 @@ class Data:
         self.config = config
 
         if config != '':
-            self.example_data_set = pd.read_csv(config['path_example_data_set'])
+
+            # Create folders
+            self.dir_root = os.path.abspath(self.config['dir_root'])
+            self.dir_outputs = os.path.abspath(os.path.join(self.dir_root, self.config['dir_outputs']))
+            self.dir_diagnostics = os.path.abspath(os.path.join(self.dir_outputs, "diagnostics"))
+
+            # Create folders if they don't exist
+            self.example_dataset = pd.read_csv(self.config['path_example_data_set'])
+            self.temperature = xr.open_dataset(self.config['path_temperature_ncdf'])
+

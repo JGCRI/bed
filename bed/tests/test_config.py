@@ -11,10 +11,10 @@ def test_class():
     """
     downloaded_data_path = bed.get_data()
     example_config = os.path.join(downloaded_data_path, 'example_config.yml')
-    c = bed.Bed(example_config)  # Coming from Model.py
+    c = bed.Bed(config_file=example_config)  # Coming from Model.py
     assert c.degree_hours == 1
     assert c.demand_heat == 0
-    assert c.config == {'path_example_data_set': 'example_data.csv'}
+    assert list(c.config.keys()) == ['dir_root', 'dir_outputs', 'path_example_data_set', 'path_temperature_ncdf']
 
 
 def test_demand():
@@ -52,7 +52,7 @@ def test_read_config():
     """
     downloaded_data_path = bed.get_data()
     example_config = os.path.join(downloaded_data_path, 'example_config.yml')
-    assert bed.read_config(example_config) == {'path_example_data_set': 'example_data.csv'}
+    assert list(bed.read_config(example_config).keys()) == ['dir_root', 'dir_outputs', 'path_example_data_set', 'path_temperature_ncdf']
 
 
 def test_read_data():
@@ -67,7 +67,7 @@ def test_read_data():
     example_value = os.path.join(downloaded_data_path, list(config.values())[0])
     updated_config = config
     updated_config[example_key] = example_value
-    df = (bed.Data(updated_config)).example_data_set
+    df = (bed.Data(updated_config)).example_dataset
     assert list(df.name) == ['a', 'b', 'c']
     assert list(df.value) == [1, 2, 3]
 
@@ -110,6 +110,6 @@ def test_class():
     test class
     :return:
     """
-    assert bed.Bed().config == 'config'
+    assert bed.Bed().config == ''
     assert bed.Bed().degree_hours == 1
     assert bed.Bed().demand_heat == 0
