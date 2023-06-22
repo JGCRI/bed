@@ -4,9 +4,10 @@
 # In terminal for testing
 # pip install pytest
 # pytest
-
-import bed
 import os
+os.chdir('C:/WorkSpace/github/bed')
+import bed
+
 
 # a1 = bed.Bed(config_file= os.path.join(data_folder,"example_config.yml")) # Coming from Model.py
 
@@ -14,7 +15,7 @@ import os
 data_folder = bed.get_data()
 
 # Read Config
-config = bed.read_config(config_file= os.path.join(data_folder,"example_config.yml"))
+config = bed.read_config(config_file = os.path.join(data_folder, "example_config.yml"))
 
 # Read Data
 data = bed.Data(config=config)
@@ -22,6 +23,14 @@ data.temperature
 
 # Run Diagnsotics
 bed.diagnostics(data=data)
+
+# run the entire model
+import os
+os.chdir('C:/WorkSpace/github/bed')
+import bed
+
+data_folder = bed.get_data()
+b = bed.Bed(config_file=os.path.join(data_folder, "example_config.yml"), diagnostics=False)
 
 
 # bed.get_data()

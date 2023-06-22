@@ -27,7 +27,7 @@ class Data:
         :return:               Data
         """
 
-        logging.info('Starting function read_config...')
+        logging.info('Starting class Data inside module read_data...')
 
         self.config = config
 
@@ -38,7 +38,16 @@ class Data:
             self.dir_outputs = os.path.abspath(os.path.join(self.dir_root, self.config['dir_outputs']))
             self.dir_diagnostics = os.path.abspath(os.path.join(self.dir_outputs, "diagnostics"))
 
+            if not os.path.exists(self.dir_outputs):
+                logging.info(f'Creating: {self.dir_outputs}')
+                os.makedirs(self.dir_outputs, exist_ok=True)
+
+            if not os.path.exists(self.dir_diagnostics):
+                logging.info(f'Creating: {self.dir_diagnostics}')
+                os.makedirs(self.dir_diagnostics, exist_ok=True)
+
             # Create folders if they don't exist
             self.example_dataset = pd.read_csv(self.config['path_example_data_set'])
             self.temperature = xr.open_dataset(self.config['path_temperature_ncdf'])
 
+        logging.info('Class Data inside module read_data completed.')

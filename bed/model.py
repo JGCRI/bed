@@ -17,7 +17,7 @@ from bed.demand import *
 class Bed:
     """ Model wrapper for bed"""
 
-    def __init__(self, config_file=''):
+    def __init__(self, config_file='', run_diagnostics=True):
 
         # Read in Config File
         self.config = read_config(config_file)
@@ -36,7 +36,8 @@ class Bed:
         # self.demand_cool = demand(self.data, type = "cool")
 
         # diagnostics
-        diagnostics(self.data)
+        if run_diagnostics:
+            diagnostics(self.data)
 
         # write outputs
         # write_outputs()
