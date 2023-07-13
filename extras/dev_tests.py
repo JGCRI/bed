@@ -5,7 +5,6 @@
 # pip install pytest
 # pytest
 import os
-os.chdir('C:/WorkSpace/github/bed')
 import bed
 
 
@@ -18,7 +17,8 @@ data_folder = bed.get_data()
 config = bed.read_config(config_file = os.path.join(data_folder, "example_config.yml"))
 
 # Read Data
-data = bed.Data(config=config)
+data = bed.Data(config_file=os.path.join(data_folder, "example_config.yml"))
+data.example_dataset
 data.temperature
 
 # Run Diagnsotics

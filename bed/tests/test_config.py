@@ -52,7 +52,7 @@ def test_read_config():
     """
     downloaded_data_path = bed.get_data()
     example_config = os.path.join(downloaded_data_path, 'example_config.yml')
-    assert list(bed.read_config(example_config).keys()) == ['dir_root', 'dir_outputs', 'path_example_data_set', 'path_temperature_ncdf']
+    assert list(bed.read_config(example_config).keys()) == ['dir_outputs', 'path_example_data_set', 'path_temperature_ncdf']
 
 
 def test_read_data():
@@ -67,7 +67,7 @@ def test_read_data():
     example_value = os.path.join(downloaded_data_path, list(config.values())[0])
     updated_config = config
     updated_config[example_key] = example_value
-    df = (bed.Data(updated_config)).example_dataset
+    df = (bed.Data(example_config)).example_dataset
     assert list(df.name) == ['a', 'b', 'c']
     assert list(df.value) == [1, 2, 3]
 
