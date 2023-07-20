@@ -26,16 +26,17 @@ def diagnostics(fake_param: int = 1, data=None, name='figure'):
         ds = data.temperature
         ds.data_vars
         ds.T2.XTIME
-        t2_cold = ds.T2.isel(Time=1)
-        t2_hot = ds.T2.isel(Time=12)
-        t2 = xr.concat([t2_cold, t2_hot], pd.Index(['Night', 'Day'], name='Cycle'))
+        t2_1 = ds.T2.isel(Time=1)
+        t2_2 = ds.T2.isel(Time=12)
+        t2 = xr.concat([t2_1, t2_2], pd.Index([t2_1.XTIME.values.astype('str')[0:19], t2_2.XTIME.values.astype('str')[0:19]], name="T"))
         t2.values.shape
         t2.coords
-        plot_t2 = t2.plot(x="west_east", y="south_north", col="Cycle")
-        # plt.show()
+        plot_t2 = t2.plot(x="west_east", y="south_north", col="T")
+        plt.show()
         # Save the plot into the diagnostics folder created by read_data()
         plt.savefig(fname=os.path.join(data.dir_diagnostics, name + '.png'))
 
+    logging.info(f"Diagnostic plots saved to: {os.path.join(data.dir_diagnostics, name + '.png')}")
     logging.info('Plotting diagnostics for temperature data complete.')
 
 
