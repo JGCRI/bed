@@ -59,4 +59,9 @@ class Data:
             else: # If user gives full path
                 self.temperature = xr.open_dataset(self.config['path_temperature_ncdf'])
 
+            if os.path.exists(os.path.abspath(os.path.join(self.dir_root, self.config['path_population_ncdf']))):
+                self.population = xr.open_dataset(os.path.abspath(os.path.join(self.dir_root, self.config['path_population_ncdf'])))
+            else: # If user gives full path
+                self.population = xr.open_dataset(self.config['path_population_ncdf'])
+
         logging.info('Class Data inside module read_data completed.')

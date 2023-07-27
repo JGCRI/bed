@@ -6,8 +6,6 @@
 # pytest
 import os
 import bed
-
-
 # a1 = bed.Bed(config_file= os.path.join(data_folder,"example_config.yml")) # Coming from Model.py
 
 # Get example data
@@ -20,6 +18,7 @@ config = bed.read_config(config_file = os.path.join(data_folder, "example_config
 data = bed.Data(config_file=os.path.join(data_folder, "example_config.yml"))
 data.example_dataset
 data.temperature
+data.population
 
 # Run Diagnsotics
 bed.diagnostics(data=data)
