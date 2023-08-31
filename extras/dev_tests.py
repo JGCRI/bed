@@ -18,7 +18,11 @@ config = bed.read_config(config_file = os.path.join(data_folder, "example_config
 data = bed.Data(config_file=os.path.join(data_folder, "example_config.yml"))
 data.example_dataset
 data.temperature
-data.population
+ds=data.population
+target_resolution=0.5
+method='extensive'
+
+regrid_ds = data.regrid(ds=data.population, target_resolution=0.5, method='extensive')
 
 # Run Diagnsotics
 bed.diagnostics(data=data)
