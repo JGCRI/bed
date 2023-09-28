@@ -32,7 +32,8 @@ setup(
         "tqdm>=4.64.1",
         "xarray>=2022.3.0",
         "matplotlib>=3.5.1",
-        "netcdf4>=1.6.3"
+        "netcdf4>=1.6.3",
+        "cartopy>=0.22.0"
     ],
     extras_require={
         'dev': [
