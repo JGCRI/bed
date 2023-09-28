@@ -5,6 +5,9 @@
 # pip install pytest
 # pytest
 import os
+import xesmf as xe
+import xarray as xr
+import numpy as np
 import bed
 # a1 = bed.Bed(config_file= os.path.join(data_folder,"example_config.yml")) # Coming from Model.py
 
@@ -18,11 +21,59 @@ config = bed.read_config(config_file = os.path.join(data_folder, "example_config
 data = bed.Data(config_file=os.path.join(data_folder, "example_config.yml"))
 data.example_dataset
 data.temperature
-ds=data.population
-target_resolution=0.5
-method='extensive'
+ds = data.population
+# target_resolution = 0.5
+# method = 'extensive'
+# regrid_ds = data.regrid(ds=data.population, target_resolution=0.5, method='extensive')
 
-regrid_ds = data.regrid(ds=data.population, target_resolution=0.5, method='extensive')
+# example to use xesmf
+resolution = 0.5
+offset = resolution /2
+
+ds_out = xr.Dataset({
+    "lat": (["lat"], np.linspace(90 - offset, -90 + offset, 15), {"units": "degrees_north"}),
+    "lon": (["lon"], np.linspace(-180 + offset, 180 - offset, 15), {"units": "degrees_east"}),
+})
+
+ds_out = xr.Dataset({
+            "lat": (["lat"], np.linspace(90 - offset, -90 + offset, 180), {"units": "degrees_north"}),
+            "lon": (["lon"], np.linspace(-180 + offset, 180 - offset, 360), {"units": "degrees_east"})
+        })
+# takes about 4 min
+ds_test = ds.isel(lat=slice(0,1117), lon=slice(0,2880))
+regridder = xe.Regridder(ds_test, ds_out, "conservative")
+
+ds_out = regridder(ds_test)
+
+
+# example using xesmf
+import os
+import xesmf as xe
+import xarray as xr
+import numpy as np
+
+ds = xr.tutorial.open_dataset("air_temperature")
+ds  # air temperature in Kelvin
+
+# input dataset can contain variables of different shapes (e.g. 2D, 3D, 4D), as long as horizontal shapes are the same.
+ds["celsius"] = ds["air"] - 273.15  # Kelvin -> celsius
+ds["slice"] = ds["air"].isel(time=0)
+ds
+
+ds_out = xr.Dataset(
+    {
+        "lat": (["lat"], np.arange(16, 75, 1.0)),
+        "lon": (["lon"], np.arange(200, 330, 1.5)),
+    }
+)
+
+regridder = xe.Regridder(ds, ds_out, "bilinear")
+regridder
+
+# the entire dataset can be processed at once
+ds_out = regridder(ds)
+ds_out
+
 
 # Run Diagnsotics
 bed.diagnostics(data=data)

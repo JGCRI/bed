@@ -22,7 +22,7 @@ setup(
     description='A template for a basic Python package with CI via GitHub actions and a JOSS paper template and action',
     long_description=readme(),
     long_description_content_type="text/markdown",
-    python_requires='>=3.8.*, <4',
+    python_requires='>=3.8',
     include_package_data=True,
     install_requires=[
         "numpy>=1.23",

@@ -3,6 +3,7 @@ import pandas as pd
 import xarray as xr
 import numpy as np
 import os as os
+import xesmf as xe
 from bed.read_config import read_config
 
 # Inputs needed:
@@ -31,7 +32,7 @@ class Data:
 
         logging.info('Starting class Data inside module read_data...')
 
-        self.config = read_config(config_file = config_file)
+        self.config = read_config(config_file=config_file)
 
         if self.config != '':
 
@@ -65,18 +66,26 @@ class Data:
             else: # If user gives full path
                 self.population = xr.open_dataset(self.config['path_population_ncdf'])
 
+        # Regrid each data
+
+
         logging.info('Class Data inside module read_data completed.')
 
+
+
     @staticmethod
-    def set_global_coords(ds, resolution):
+    def set_global_coords(resolution):
+
         offset = resolution / 2
-        ds['lat'] = np.linspace(90 - offset, -90 + offset, round(180 / resolution))
-        ds['lon'] = np.linspace(-180 + offset, 180 - offset, round(360 / resolution))
 
-        return ds
+        coords = xr.Dataset({
+            "lat": (["lat"], np.linspace(90 - offset, -90 + offset, round(180 / resolution)), {"units": "degrees_north"}),
+            "lon": (["lon"], np.linspace(-180 + offset, 180 - offset, round(360 / resolution)), {"units": "degrees_east"}),
+        })
 
-    @staticmethod
-    def regrid(ds, target_resolution, method='extensive'):
+        return coords
+
+    def regrid(self, ds, target_resolution, method='conservative'):
         """Simple regridding algorithm
 
         :param ds: xarray Dataset or DataArray, needs lat and lon and global extent
@@ -85,25 +94,19 @@ class Data:
         :return: ds regridded to target_resolution
         """
 
-        target_lat_size = round(180 / target_resolution)
+        # Set target coordinates
+        ds_out = self.set_global_coords(target_resolution)
 
-        lcm = np.lcm(ds.lat.size, target_lat_size)
-        r = lcm // ds.lat.size
-        s = lcm // target_lat_size
 
-        if method == 'label':
-            ds = ds.isel(lon=np.arange(ds.lon.size).repeat(r)).coarsen(lon=s, boundary='pad').max()
-            ds = ds.isel(lat=np.arange(ds.lat.size).repeat(r)).coarsen(lat=s, boundary='pad').max()
-        else:
-            ds = ds.isel(lon=np.arange(ds.lon.size).repeat(r)).coarsen(lon=s, boundary='pad').sum()
-            ds = ds.isel(lat=np.arange(ds.lat.size).repeat(r)).coarsen(lat=s, boundary='pad').sum()
-            if method == 'extensive':
-                ds = ds / (r * r)  # preserve original sum
-            elif method == 'intensive':
-                ds = ds / (s * s)  # take average
+        # Perform regridding
+        regridder = xe.Regridder(ds, ds_out, method)
 
-        # set coordinates
-        ds = set_global_coords(ds, target_resolution)
+        # Regrid with a Data Array
+        da = ds['ssp2_2020']
+        da = da.transpose('lat', 'lon')
+        ds_out = regridder(da)
 
-        return ds
+
+
+        return ds_out
 
