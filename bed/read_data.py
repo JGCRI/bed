@@ -49,64 +49,55 @@ class Data:
                 logging.info(f'Creating: {self.dir_diagnostics}')
                 os.makedirs(self.dir_diagnostics, exist_ok=True)
 
-            # Read datasets
-            # Assume datasets are in same folder as config_file
-            if os.path.exists(os.path.abspath(os.path.join(self.dir_root, self.config['path_example_data_set']))):
-                self.example_dataset = pd.read_csv(os.path.abspath(os.path.join(self.dir_root, self.config['path_example_data_set'])))
-            else: # If user gives full path
-                self.example_dataset = pd.read_csv(os.path.abspath(self.config['path_example_data_set']))
+            # Read spatial datasets
+            self.temperature = self.read_spatial_data('temperature_data')
+            self.building_area = self.read_spatial_data('building_area_data')
+            self.building_height = self.read_spatial_data('building_height_data')
 
-            if os.path.exists(os.path.abspath(os.path.join(self.dir_root, self.config['path_temperature_ncdf']))):
-                self.temperature = xr.open_dataset(os.path.abspath(os.path.join(self.dir_root, self.config['path_temperature_ncdf'])))
-            else: # If user gives full path
-                self.temperature = xr.open_dataset(self.config['path_temperature_ncdf'])
-
-            if os.path.exists(os.path.abspath(os.path.join(self.dir_root, self.config['path_population_ncdf']))):
-                self.population = xr.open_dataset(os.path.abspath(os.path.join(self.dir_root, self.config['path_population_ncdf'])))
-            else: # If user gives full path
-                self.population = xr.open_dataset(self.config['path_population_ncdf'])
-
-        # Regrid each data
+            # Surface to floor ratio
+            self.surface_to_floor_area_ratio = self.get_surface_to_floor_area_ratio()
 
 
         logging.info('Class Data inside module read_data completed.')
 
+        ...
 
+    def get_surface_to_floor_area_ratio(self):
+        """
+        Calculate surface to floor area ratio using building area and building height
+        """
+        logging.info('Calculating surface area to floor space ratio')
 
-    @staticmethod
-    def set_global_coords(resolution):
+        # Length and Width assuming square building
+        lw = np.sqrt(self.building_area)
 
-        offset = resolution / 2
+        # Surface area, 4 sides + roof
+        surface_area = (4 * (lw * self.building_height)) + (lw * lw)
 
-        coords = xr.Dataset({
-            "lat": (["lat"], np.linspace(90 - offset, -90 + offset, round(180 / resolution)), {"units": "degrees_north"}),
-            "lon": (["lon"], np.linspace(-180 + offset, 180 - offset, round(360 / resolution)), {"units": "degrees_east"}),
-        })
+        # Floor space, building footprint area * number of floors assuming 3 meters per floor
+        floor_space = self.building_area * self.building_height / 3
 
-        return coords
+        # Surface to floor area ratio
+        s2far = surface_area / floor_space
 
-    def regrid(self, ds, target_resolution, method='conservative'):
-        """Simple regridding algorithm
+        return s2far
 
-        :param ds: xarray Dataset or DataArray, needs lat and lon and global extent
-        :param target_resolution: target resolution in degrees
-        :param method: choice of 'extensive' (preserves sums, default), 'intensive' (take average), or 'label' (for maps)
-        :return: ds regridded to target_resolution
+    def read_spatial_data(self, key):
+        """
+        Read in spatial datasets using Xarray
+
+        :param key:         Key of in config file for path to data to read
+        :type key:          string
+        :return:            Xarray DataSet
         """
 
-        # Set target coordinates
-        ds_out = self.set_global_coords(target_resolution)
+        logging.info(f'Reading {key} data')
 
-
-        # Perform regridding
-        regridder = xe.Regridder(ds, ds_out, method)
-
-        # Regrid with a Data Array
-        da = ds['ssp2_2020']
-        da = da.transpose('lat', 'lon')
-        ds_out = regridder(da)
-
-
-
-        return ds_out
+        # Assume datasets are in same folder as config_file
+        if os.path.exists(os.path.abspath(os.path.join(self.dir_root, self.config[key]))):
+            spatial_data = xr.open_mfdataset(os.path.abspath(os.path.join(self.dir_root, self.config[key])))
+        else: # If user gives full path
+            spatial_data = xr.open_mfdataset(os.path.abspath(self.config[key]))
+        
+        return spatial_data
 
