@@ -1,3 +1,5 @@
 dir_outputs: "outputs"
-path_example_data_set: "example_data.csv"
+temperature_data: "era5_tas_2018.nc"
+building_area_data: "GHS_BUILT_S_E2018.tif"
+building_height_data: "GHS_BUILT_H_ANBH_E2018.tif"
 path_temperature_ncdf: "climate/wrfout_d03_2014-08-09_Morocco_2014.nc"
