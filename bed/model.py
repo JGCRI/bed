@@ -26,7 +26,7 @@ class Bed:
         self.data = Data(self.config)
 
         # Calculate degree hours
-        self.degree_hours = temperature_to_degree_hours(temperature=1, weighted_population=1,
+        self.degree_hours = temperature_to_degree_hours(temperature=self.data.temperature, weighted_population=1,
                                                         temperature_unit='F', comfortable_temperature=65)
 
         # Calculate building energy demand

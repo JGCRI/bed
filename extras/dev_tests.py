@@ -12,13 +12,20 @@ import bed
 # a1 = bed.Bed(config_file= os.path.join(data_folder,"example_config.yml")) # Coming from Model.py
 
 # Get example data
-data_folder = bed.get_data()
+data_folder = bed.get_data('/rcfs/projects/nasa_lulc/data/downloaded_data')
 
 # Read Config
 config = bed.read_config(config_file = os.path.join(data_folder, "example_config.yml"))
 
 # Read Data
 data = bed.Data(config_file=os.path.join(data_folder, "example_config.yml"))
+
+# Run Diagnsotics
+bed.diagnostics(data=data)
+
+# -------------------------------------
+# TEST
+# -------------------------------------
 data.example_dataset
 data.temperature
 ds = data.population
@@ -75,8 +82,7 @@ ds_out = regridder(ds)
 ds_out
 
 
-# Run Diagnsotics
-bed.diagnostics(data=data)
+
 
 # run the entire model
 import os
