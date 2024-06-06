@@ -1,5 +1,29 @@
 dir_outputs: "outputs"
+
+# Current Year
 temperature_data: "era5_tas_2018.nc"
 building_area_data: "GHS_BUILT_S_E2018.tif"
 building_height_data: "GHS_BUILT_H_ANBH_E2018.tif"
-path_temperature_ncdf: "climate/wrfout_d03_2014-08-09_Morocco_2014.nc"
+total_internal_gain: 8.26e7 # units - GJ
+thermal_conductance: 1.48422  # Improvement rate of thermal conductance. Ex. assuming to improve by 0.3% a year from 2012-2018
+heating_price: 1
+cooling_price: 1
+income_per_capita: 'income_2021.nc'
+
+# Base Year
+base_year_temperature_data: "era5_tas_2018.nc" # "era5_tas_2012.nc"
+base_year_building_area_data: "GHS_BUILT_S_E2018.tif"
+base_year_building_height_data: "GHS_BUILT_H_ANBH_E2018.tif"
+base_year_heating_demand: 4.58e6 # Total residential space heating energy demand in Morocoo 2012 (IEA)
+base_year_cooling_demand: 2.6e5 # Total residential space cooling energy demand in Morocoo 2012 (IEA)
+base_year_satiation_factor: 1.1 # Assumed factor to apply to demand to increase to theoretical satiation level. Leave as 1 if you think demand was met
+base_year_thermal_conductance: 1.511219  # Assuming user can provide reasonable estimate for this in the base year (indexed to US 2005 value?)
+base_year_total_internal_gain: 6.86e7 # units - GJ
+base_year_heating_price: 1
+base_year_cooling_price: 1
+base_year_income_per_capita: 'income_2021.nc'
+
+# Parameters
+temperature_variable_name: 't2m'
+temperature_units: 'K'
+comfortable_temperature: 291.483

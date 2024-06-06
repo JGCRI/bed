@@ -53,9 +53,22 @@ class Data:
             self.temperature = self.read_spatial_data('temperature_data')
             self.building_area = self.read_spatial_data('building_area_data')
             self.building_height = self.read_spatial_data('building_height_data')
+            self.income_per_capita = self.read_spatial_data('income_per_capita')
+            self.income_per_capita = self.income_per_capita['income']
+
+            # Read spatial datasets (base year)
+            self.base_year_temperature = self.read_spatial_data('base_year_temperature_data')
+            self.base_year_building_area = self.read_spatial_data('base_year_building_area_data')
+            self.base_year_building_height = self.read_spatial_data('base_year_building_height_data')
+            self.base_year_income_per_capita = self.read_spatial_data('base_year_income_per_capita')
+            self.base_year_income_per_capita = self.base_year_income_per_capita['income']
+
+            # Align, removes floating point errors of lat/lon alignment
+            self.temperature, self.building_area, self.building_height = xr.align(self.temperature, self.building_area, self.building_height, join='override')
+            self.base_year_temperature, self.base_year_building_area, self.base_year_building_height = xr.align(self.base_year_temperature, self.base_year_building_area, self.base_year_building_height, join='override')
 
             # Surface to floor ratio
-            self.surface_to_floor_area_ratio = self.get_surface_to_floor_area_ratio()
+            self.surface_to_floor_area_ratio, self.base_year_surface_to_floor_area_ratio = self.get_surface_to_floor_area_ratio()
 
 
         logging.info('Class Data inside module read_data completed.')
@@ -68,19 +81,31 @@ class Data:
         """
         logging.info('Calculating surface area to floor space ratio')
 
+        # Formatting
+        self.building_area = self.building_area['band_data'].squeeze('band').drop_vars(['band', 'spatial_ref']).transpose('y', 'x')
+        self.building_height = self.building_height['band_data'].squeeze('band').drop_vars(['band', 'spatial_ref']).transpose('y', 'x')
+        self.base_year_building_area = self.base_year_building_area['band_data'].squeeze('band').drop_vars(['band', 'spatial_ref']).transpose('y', 'x')
+        self.base_year_building_height = self.base_year_building_height['band_data'].squeeze('band').drop_vars(['band', 'spatial_ref']).transpose('y', 'x')
+
+        # Floor space
+        self.floor_space = self.building_area * self.building_height / 3
+        self.base_year_floor_space = self.base_year_building_area * self.base_year_building_height / 3
+        self.total_floor_space = np.nansum(self.floor_space.data)
+        self.base_year_total_floor_space = np.nansum(self.base_year_floor_space.data)
+
         # Length and Width assuming square building
         lw = np.sqrt(self.building_area)
+        base_year_lw = np.sqrt(self.base_year_building_area)
 
         # Surface area, 4 sides + roof
         surface_area = (4 * (lw * self.building_height)) + (lw * lw)
-
-        # Floor space, building footprint area * number of floors assuming 3 meters per floor
-        floor_space = self.building_area * self.building_height / 3
+        base_year_surface_area = (4 * (base_year_lw * self.base_year_building_height)) + (base_year_lw * base_year_lw)
 
         # Surface to floor area ratio
-        s2far = surface_area / floor_space
+        s2far = surface_area / self.floor_space
+        base_year_s2far = base_year_surface_area / self.base_year_floor_space
 
-        return s2far
+        return s2far, base_year_s2far
 
     def read_spatial_data(self, key):
         """
