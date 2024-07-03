@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 
 
-def diagnostics(input_data=None, degree_hours=None, demand=None, buildings=None, name='figure'):
+def diagnostics(input_data, demand, diag_out):
     """Fake function to remove.
 
     :param fake_param:                          A fake integer
@@ -21,90 +21,100 @@ def diagnostics(input_data=None, degree_hours=None, demand=None, buildings=None,
 
     """
 
-    # Plot Temperature Data
-    logging.info('Plotting diagnostics for input temperature data...')
+    # Number of input / output setups
+    n_inputs = len(input_data)
+    n_outputs = n_inputs - 1
 
-    if input_data != None:
-        # Temperature data
-        ds = input_data.temperature.t2m
+    # Plot Temperature Data ---------------------------
+    logging.info('Plotting diagnostics for HDD & CDD...')
 
-        # Plot
-        ds.isel(time=1).plot()
+    # Set up figure
+    fig, axes = plt.subplots(n_inputs, 2, figsize = (10, n_inputs*3))
+    fig.tight_layout()
+    # For each input setup plot HDD and CDD
+    for i, (key, data) in enumerate(input_data.items()):
+        # Get HDD and CDD data
+        hdd = data['degree_hours']['hdd']
+        cdd = data['degree_hours']['cdd']
 
-        # Save the plot into the diagnostics folder created by read_data()
-        plt.savefig(fname=os.path.join(input_data.dir_diagnostics, 'diagnostic_temperature.png'))
-        plt.close()
+        # Plot them side by side
+        hdd.plot(ax=axes[i,0])
+        cdd.plot(ax=axes[i,1])
 
-    logging.info(f"Diagnostic plots saved to: {os.path.join(input_data.dir_diagnostics, 'diagnostic_temperature.png')}")
-    logging.info('Plotting diagnostics for temperature data complete.')
+        # Row name
+        axes[i,0].annotate(key, xy=(0,0.5), ha='right', va='center')
 
-    # Plot Degree Hour data
-    logging.info('Plotting diagnostics for building properties data...')
-    if buildings != None:
-        area = buildings['area']
-        height = buildings['height']
-        floor = buildings['floor']
-        s2far = buildings['s2far']
-        
-        # Plot
-        fig, ((ax1, ax2),(ax3, ax4)) = plt.subplots(2,2, figsize=(15,10))
+    # Column names
+    axes[0,0].set_title('HDD')
+    axes[0,1].set_title('CDD')
 
-        area.plot(ax=ax1, norm=colors.SymLogNorm(linthresh=1e-2))
-        height.plot(ax=ax2, norm=colors.SymLogNorm(linthresh=1e-2))
-        floor.plot(ax=ax3, norm=colors.SymLogNorm(linthresh=1e-2))
-        s2far.plot(ax=ax4, norm=colors.SymLogNorm(linthresh=1e-2))
+    plt.savefig(fname=os.path.join(diag_out, 'hdd_cdd.png'))
+    plt.close()
 
-        ax1.set_title('Building Area')
-        ax2.set_title('Building Height')
-        ax3.set_title('Floor Space')
-        ax4.set_title('Surface to Floor Space Ratio')
+    logging.info(f"Diagnostic plots saved to: {os.path.join(diag_out, 'hdd_cdd.png')}")
 
-        # Save the plot into the diagnostics folder created by read_data()
-        plt.savefig(fname=os.path.join(input_data.dir_diagnostics, 'buildings.png'))
-        plt.close()
 
-        logging.info('Plotting diagnostics for building properties data complete.')
+    # Plot Building Properties ---------------------------
+    logging.info('Plotting diagnostics for building data...')
 
-    # Plot Building Properties
-    logging.info('Plotting diagnostics for degree hour data...')
-    if degree_hours != None:
-        hdd = degree_hours['hdd']
-        cdd = degree_hours['cdd']
-        
-        # Plot
-        fig, (ax1, ax2) = plt.subplots(1,2, figsize=(15,5))
+    # Set up figure
+    fig, axes = plt.subplots(n_inputs, 4, figsize = (18, n_inputs*3))
+    fig.tight_layout()
+    # For each input setup plot HDD and CDD
+    for i, (key, data) in enumerate(input_data.items()):
+        # Get data
+        area = data['area']
+        height = data['height']
+        floor_space = data['floor_space']
+        surface_to_floor_area_ratio = data['surface_to_floor_area_ratio']
 
-        hdd.plot(ax=ax1)
-        cdd.plot(ax=ax2)
+        # Plot them side by side by side by side
+        area.plot(ax=axes[i,0])
+        height.plot(ax=axes[i,1])
+        floor_space.plot(ax=axes[i,2])
+        surface_to_floor_area_ratio.plot(ax=axes[i,3])
 
-        ax1.set_title('Heating Degree Hours')
-        ax2.set_title('Cooling Degree Hours')
+        # Row name
+        axes[i,0].annotate(key, xy=(0,0.5), ha='right', va='center')
 
-        # Save the plot into the diagnostics folder created by read_data()
-        plt.savefig(fname=os.path.join(input_data.dir_diagnostics, 'hdd_cdd.png'))
-        plt.close()
+    # Column names
+    axes[0,0].set_title('Area')
+    axes[0,1].set_title('Height')
+    axes[0,2].set_title('Floor Space')
+    axes[0,3].set_title('Ratio')
 
-        logging.info('Plotting diagnostics for degree hour data complete.')
+    plt.savefig(fname=os.path.join(diag_out, 'buildings.png'))
+    plt.close()
 
-    # Plot Demand
-    logging.info('Plotting diagnostics for demand data...')
-    if demand != None:
-        heating_demand = demand['demand_h']
-        cooling_demand = demand['demand_c']
-        
-        # Plot
-        fig, (ax1, ax2) = plt.subplots(1,2, figsize=(15,5))
+    logging.info(f"Diagnostic plots saved to: {os.path.join(diag_out, 'buildings.png')}")
 
-        heating_demand.plot(ax=ax1, norm=colors.SymLogNorm(linthresh=1e-2))
-        cooling_demand.plot(ax=ax2, norm=colors.SymLogNorm(linthresh=1e-2))
 
-        ax1.set_title('Heating Demand')
-        ax2.set_title('Cooling Demand')
+    # Plot Demand Data ---------------------------
+    logging.info('Plotting heating and cooling demand...')
 
-        # Save the plot into the diagnostics folder created by read_data()
-        plt.savefig(fname=os.path.join(input_data.dir_diagnostics, 'demand.png'))
-        plt.close()
+    # Set up figure
+    fig, axes = plt.subplots(n_outputs, 2, figsize = (9, n_outputs*3))
+    fig.tight_layout()
+    # For each input setup plot HDD and CDD
+    for i, (key, data) in enumerate(demand.items()):
+        # Get heating and cooling demand data
+        heating_demand = data['demand_h']
+        cooling_demand = data['demand_c']
 
-        logging.info('Plotting diagnostics for demand data complete.')
+        # Plot them side by side
+        heating_demand.plot(ax=axes[i,0], norm=colors.SymLogNorm(linthresh=1e0))
+        cooling_demand.plot(ax=axes[i,1], norm=colors.SymLogNorm(linthresh=1e0))
+
+        # Row name
+        axes[i,0].annotate(key, xy=(0,0.5), ha='right', va='center')
+
+    # Column names
+    axes[0,0].set_title('Heating Demand')
+    axes[0,1].set_title('Cooling Demand')
+
+    plt.savefig(fname=os.path.join(diag_out, 'demand.png'))
+    plt.close()
+
+    logging.info(f"Diagnostic plots saved to: {os.path.join(diag_out, 'demand.png')}")
 
     ...
