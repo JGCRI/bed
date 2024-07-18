@@ -48,11 +48,8 @@ class Data:
             coverage_percent_conversion_factor = float(self.config['coverage_percent_conversion_factor'])
 
             # Coverage data
-            self.coverage_percent_mask = None
-            base_year_building_area = self.read_spatial_data('base_year_building_area_data', self.config)
-            base_year_building_area = base_year_building_area.squeeze('band').drop_vars(['band', 'spatial_ref']).transpose('y', 'x')['band_data']
-            base_year_coverage_percent = base_year_building_area * coverage_percent_conversion_factor
-            self.coverage_percent_mask = base_year_coverage_percent.where(base_year_coverage_percent > coverage_percent_threshold)
+            self.resid_coverage_percent_mask = self.make_coverage_percent_mask('RES_base_year_building_area_data', coverage_percent_threshold, coverage_percent_conversion_factor)
+            self.comm_coverage_percent_mask = self.make_coverage_percent_mask('NRES_base_year_building_area_data', coverage_percent_threshold, coverage_percent_conversion_factor)
 
             # Get base year data and shared data
             self.data_dict['base_year'] = self.get_base_year_data()
@@ -65,31 +62,50 @@ class Data:
 
         ...
 
+    def make_coverage_percent_mask(self, area_data_key, thresh, scale_factor):
+        """
+        Create a mask to keep cells which exceed the threshold for coverage percent
+        """
+        # Read area data
+        building_area = self.read_spatial_data(area_data_key, self.config)
+        building_area = building_area.squeeze('band').drop_vars(['band', 'spatial_ref']).transpose('y', 'x')['band_data']
+
+        # Convert to percent coverage in each cell
+        coverage_percent = building_area * scale_factor
+
+        # Mask
+        coverage_percent_mask = coverage_percent.where(coverage_percent > thresh)
+
+        return coverage_percent_mask
+
     def get_base_year_data(self):
         """
         Read in data for the calibration year, or data that is shared between years
         """
         # Read spatial datasets (base year)
         base_year_temperature = self.read_spatial_data('base_year_temperature_data', self.config)
-        base_year_building_area = self.read_spatial_data('base_year_building_area_data', self.config)
+        resid_base_year_building_area = self.read_spatial_data('RES_base_year_building_area_data', self.config, mask=self.resid_coverage_percent_mask)
+        comm_base_year_building_area = self.read_spatial_data('NRES_base_year_building_area_data', self.config, mask=self.comm_coverage_percent_mask)
         base_year_building_height = self.read_spatial_data('base_year_building_height_data', self.config)
         base_year_income_per_capita = self.read_spatial_data('base_year_income_per_capita', self.config)
         base_year_income_per_capita = base_year_income_per_capita['income']
 
         # Read shared spatial datasets
-        resid_u_factor = self.read_spatial_data('resid_u_factor_data', self.config)
-        comm_u_factor = self.read_spatial_data('comm_u_factor_data', self.config)
+        resid_u_factor = self.read_spatial_data('RES_u_factor_data', self.config)
+        comm_u_factor = self.read_spatial_data('NRES_u_factor_data', self.config)
         resid_u_factor = resid_u_factor['resid-u-factor']
         comm_u_factor = comm_u_factor['comm-u-factor']
 
         # Align spatial datasets
         base_year_temperature, \
-        base_year_building_area, \
+        resid_base_year_building_area, \
+        comm_base_year_building_area, \
         base_year_building_height, \
         base_year_income_per_capita, \
         resid_u_factor, \
         comm_u_factor = xr.align(base_year_temperature, 
-                                 base_year_building_area, 
+                                 resid_base_year_building_area,
+                                 comm_base_year_building_area, 
                                  base_year_building_height, 
                                  base_year_income_per_capita,
                                  resid_u_factor,
@@ -97,19 +113,26 @@ class Data:
                                  join='override')
 
         # Surface to floor ratio
-        surface_to_floor_area_ratio, floor_space, total_floor_space, base_year_building_area, base_year_building_height = self.get_surface_to_floor_area_ratio(base_year_building_area, base_year_building_height)
+        resid_surface_to_floor_area_ratio, resid_floor_space, resid_total_floor_space, resid_base_year_building_area, resid_base_year_building_height = self.get_surface_to_floor_area_ratio(resid_base_year_building_area, base_year_building_height)
+        comm_surface_to_floor_area_ratio, comm_floor_space, comm_total_floor_space, comm_base_year_building_area, comm_base_year_building_height = self.get_surface_to_floor_area_ratio(comm_base_year_building_area, base_year_building_height)
 
         # Return data in dictionary including constants
         return {
             'temperature': base_year_temperature,
-            'area': base_year_building_area,
-            'height': base_year_building_height,
+            'resid_area': resid_base_year_building_area,
+            'comm_area': comm_base_year_building_area,
+            'resid_height': resid_base_year_building_height,
+            'comm_height': comm_base_year_building_height,
             'income': base_year_income_per_capita,
             'resid_u_factor': resid_u_factor,
             'comm_u_factor': comm_u_factor,
-            'surface_to_floor_area_ratio': surface_to_floor_area_ratio,
-            'floor_space': floor_space,
-            'total_floor_space': total_floor_space,
+            'resid_surface_to_floor_area_ratio': resid_surface_to_floor_area_ratio,
+            'comm_surface_to_floor_area_ratio': comm_surface_to_floor_area_ratio,
+            'resid_floor_space': resid_floor_space,
+            'comm_floor_space': comm_floor_space,
+            'resid_total_floor_space': resid_total_floor_space,
+            'comm_total_floor_space': comm_total_floor_space,
+            'year': int(self.config['base_year']),
             'coverage_percent_threshold': float(self.config['coverage_percent_threshold']),
             'temperature_variable_name': self.config['temperature_variable_name'],
             'temperature_units': self.config['temperature_units'],
@@ -117,12 +140,17 @@ class Data:
             'comfortable_temperature_upper': float(self.config['comfortable_temperature_upper']),
             'u_factor_target_year': int(self.config['u_factor_target_year']),
             'u_factor_improvement_rate': float(self.config['u_factor_improvement_rate']),
-            'heating_demand': float(self.config['base_year_heating_demand']),
-            'cooling_demand': float(self.config['base_year_cooling_demand']),
+            'resid_heating_demand': float(self.config['RES_base_year_heating_demand']),
+            'resid_cooling_demand': float(self.config['RES_base_year_cooling_demand']),
+            'comm_heating_demand': float(self.config['NRES_base_year_heating_demand']),
+            'comm_cooling_demand': float(self.config['NRES_base_year_cooling_demand']),
             'satiation_factor': float(self.config['base_year_satiation_factor']),
-            'total_internal_gain': float(self.config['base_year_total_internal_gain']),
-            'heating_price': float(self.config['base_year_heating_price']),
-            'cooling_price': float(self.config['base_year_cooling_price'])
+            'resid_total_internal_gain': float(self.config['RES_base_year_total_internal_gain']),
+            'comm_total_internal_gain': float(self.config['NRES_base_year_total_internal_gain']),
+            'resid_heating_price': float(self.config['RES_base_year_heating_price']),
+            'resid_cooling_price': float(self.config['RES_base_year_cooling_price']),
+            'comm_heating_price': float(self.config['NRES_base_year_heating_price']),
+            'comm_cooling_price': float(self.config['NRES_base_year_cooling_price'])
         }
 
     def get_year_data(self, data):
@@ -131,36 +159,49 @@ class Data:
         """
         # Read spatial datasets
         temperature = self.read_spatial_data('temperature_data', data)
-        building_area = self.read_spatial_data('building_area_data', data)
+        resid_building_area = self.read_spatial_data('RES_building_area_data', data, mask=self.resid_coverage_percent_mask)
+        comm_building_area = self.read_spatial_data('NRES_building_area_data', data, mask=self.comm_coverage_percent_mask)
         building_height = self.read_spatial_data('building_height_data', data)
         income_per_capita = self.read_spatial_data('income_per_capita', data)
         income_per_capita = income_per_capita['income']
 
         # Align spatial datasets
         temperature, \
-        building_area, \
+        resid_building_area, \
+        comm_building_area, \
         building_height, \
         income_per_capita = xr.align(temperature, 
-                                     building_area, 
+                                     resid_building_area, 
+                                     comm_building_area,
                                      building_height, 
                                      income_per_capita,
                                      join='override')
 
         # Surface to floor ratio
-        surface_to_floor_area_ratio, floor_space, total_floor_space, building_area, building_height = self.get_surface_to_floor_area_ratio(building_area, building_height)
+        resid_surface_to_floor_area_ratio, resid_floor_space, resid_total_floor_space, resid_building_area, resid_building_height = self.get_surface_to_floor_area_ratio(resid_building_area, building_height)
+        comm_surface_to_floor_area_ratio, comm_floor_space, comm_total_floor_space, comm_building_area, comm_building_height = self.get_surface_to_floor_area_ratio(comm_building_area, building_height)
 
         # Return data in dictionary including constants
         return {
             'temperature': temperature,
-            'area': building_area,
-            'height': building_height,
+            'resid_area': resid_building_area,
+            'comm_area': comm_building_area,
+            'resid_height': resid_building_height,
+            'comm_height': comm_building_height,
             'income': income_per_capita,
-            'surface_to_floor_area_ratio': surface_to_floor_area_ratio,
-            'floor_space': floor_space,
-            'total_floor_space': total_floor_space,
-            'total_internal_gain': float(data['total_internal_gain']),
-            'heating_price': float(data['heating_price']),
-            'cooling_price': float(data['cooling_price'])
+            'resid_surface_to_floor_area_ratio': resid_surface_to_floor_area_ratio,
+            'comm_surface_to_floor_area_ratio': comm_surface_to_floor_area_ratio,
+            'resid_floor_space': resid_floor_space,
+            'comm_floor_space': comm_floor_space,
+            'resid_total_floor_space': resid_total_floor_space,
+            'comm_total_floor_space': comm_total_floor_space,
+            'year': int(data['year']),
+            'resid_total_internal_gain': float(data['RES_total_internal_gain']),
+            'comm_total_internal_gain': float(data['NRES_total_internal_gain']),
+            'resid_heating_price': float(data['RES_heating_price']),
+            'resid_cooling_price': float(data['RES_cooling_price']),
+            'comm_heating_price': float(data['NRES_heating_price']),
+            'comm_cooling_price': float(data['NRES_cooling_price'])
         }
 
     def get_surface_to_floor_area_ratio(self, building_area, building_height):
@@ -188,7 +229,7 @@ class Data:
 
         return s2far, floor_space, total_floor_space, building_area, building_height
 
-    def read_spatial_data(self, key, data):
+    def read_spatial_data(self, key, data, mask=None):
         """
         Read in spatial datasets using Xarray
 
@@ -205,9 +246,9 @@ class Data:
         else: # If user gives full path
             spatial_data = xr.open_mfdataset(os.path.abspath(data[key]))
 
-        if self.coverage_percent_mask is None:
-            return spatial_data.compute()
+        # if mask is None:
+        #     return spatial_data.compute()
         
-        _, spatial_data = xr.align(self.coverage_percent_mask, spatial_data, join='override')
+        # _, spatial_data = xr.align(mask, spatial_data, join='override')
         
-        return spatial_data.where(~self.coverage_percent_mask.isnull()).compute()
+        return spatial_data.compute() #.where(~mask.isnull()).compute()
