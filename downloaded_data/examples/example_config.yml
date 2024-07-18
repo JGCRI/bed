@@ -1,29 +1,62 @@
 dir_outputs: "outputs"
 
-# Current Year
-temperature_data: "era5_tas_2018.nc"
-building_area_data: "GHS_BUILT_S_E2018.tif"
-building_height_data: "GHS_BUILT_H_ANBH_E2018.tif"
-total_internal_gain: 8.26e7 # units - GJ
-thermal_conductance: 1.48422  # Improvement rate of thermal conductance. Ex. assuming to improve by 0.3% a year from 2012-2018
-heating_price: 1
-cooling_price: 1
-income_per_capita: 'income_2021.nc'
+# For each year to run the model for, fill in required data
+years:
+  2018:
+    year: 2018
+    temperature_data: "era5_tas_2018.nc"
+    RES_building_area_data: "GHS_BUILT_S_RES_E2020.tif"
+    NRES_building_area_data: "GHS_BUILT_S_NRES_E2020.tif"
+    building_height_data: "GHS_BUILT_H_ANBH_E2020.tif"
+    RES_total_internal_gain: 8.26e7 # units - GJ
+    NRES_total_internal_gain: 8.26e7 # units - GJ
+    RES_heating_price: 1.19 # Price as calculated using GCAM7 prices and IEA energy demand (2018)
+    RES_cooling_price: 3.58 # Price as calculated using GCAM7 prices and IEA energy demand (2018)
+    NRES_heating_price: 1.19 # Price as calculated using GCAM7 prices and IEA energy demand (2018)
+    NRES_cooling_price: 3.58 # Price as calculated using GCAM7 prices and IEA energy demand (2018)
+    income_per_capita: 'income_2021.nc'
+  2005:
+    year: 2005
+    temperature_data: "era5_tas_2004.nc"
+    RES_building_area_data: "GHS_BUILT_S_RES_E2005.tif"
+    NRES_building_area_data: "GHS_BUILT_S_NRES_E2005.tif"
+    building_height_data: "GHS_BUILT_H_ANBH_E2005.tif"
+    RES_total_internal_gain: 8.26e7 # units - GJ
+    NRES_total_internal_gain: 8.26e7 # units - GJ
+    RES_heating_price: 1.19 # Price as calculated using GCAM7 prices and IEA energy demand (2018)
+    RES_cooling_price: 3.58 # Price as calculated using GCAM7 prices and IEA energy demand (2018)
+    NRES_heating_price: 1.19 # Price as calculated using GCAM7 prices and IEA energy demand (2018)
+    NRES_cooling_price: 3.58 # Price as calculated using GCAM7 prices and IEA energy demand (2018)
+    income_per_capita: 'income_2021.nc'
 
 # Base Year
-base_year_temperature_data: "era5_tas_2018.nc" # "era5_tas_2012.nc"
-base_year_building_area_data: "GHS_BUILT_S_E2018.tif"
-base_year_building_height_data: "GHS_BUILT_H_ANBH_E2018.tif"
-base_year_heating_demand: 4.58e6 # Total residential space heating energy demand in Morocoo 2012 (IEA)
-base_year_cooling_demand: 2.6e5 # Total residential space cooling energy demand in Morocoo 2012 (IEA)
+base_year: 2010
+base_year_temperature_data: "era5_tas_2010.nc"
+RES_base_year_building_area_data: "GHS_BUILT_S_RES_E2010.tif"
+NRES_base_year_building_area_data: "GHS_BUILT_S_NRES_E2010.tif"
+base_year_building_area_data: "GHS_BUILT_S_E2010.tif"
+base_year_building_height_data: "GHS_BUILT_H_ANBH_E2010.tif"
+RES_base_year_heating_demand: 5.19e6 # Total residential space heating energy demand in Morocoo 2010 (IEA)
+RES_base_year_cooling_demand: 2.2e5 # Total residential space cooling energy demand in Morocoo 2010 (IEA)
+NRES_base_year_heating_demand: 1.11e6 # Total residential space heating energy demand in Morocoo 2010 (IEA)
+NRES_base_year_cooling_demand: 7.8e5 # Total residential space cooling energy demand in Morocoo 2010 (IEA)
 base_year_satiation_factor: 1.1 # Assumed factor to apply to demand to increase to theoretical satiation level. Leave as 1 if you think demand was met
-base_year_thermal_conductance: 1.511219  # Assuming user can provide reasonable estimate for this in the base year (indexed to US 2005 value?)
-base_year_total_internal_gain: 6.86e7 # units - GJ
-base_year_heating_price: 1
-base_year_cooling_price: 1
+RES_base_year_total_internal_gain: 13.88e7 # units - GJ
+NRES_base_year_total_internal_gain: 4.7e7 # units - GJ
+RES_base_year_heating_price: 1.10 # Price as calculated using GCAM7 prices and IEA energy demand (2010)
+RES_base_year_cooling_price: 3.53 # Price as calculated using GCAM prices and IEA energy demand (2010)
+NRES_base_year_heating_price: 1.10 # Price as calculated using GCAM7 prices and IEA energy demand (2010)
+NRES_base_year_cooling_price: 3.53 # Price as calculated using GCAM prices and IEA energy demand (2010)
 base_year_income_per_capita: 'income_2021.nc'
 
-# Parameters
+# Shared
 temperature_variable_name: 't2m'
 temperature_units: 'K'
-comfortable_temperature: 291.483
+comfortable_temperature_lower: 291.15
+comfortable_temperature_upper: 294.15
+RES_u_factor_data: 'resid-u-factor.nc'
+NRES_u_factor_data: 'comm-u-factor.nc'
+u_factor_target_year: 2020
+u_factor_improvement_rate: 0.006
+coverage_percent_threshold: 0.0005
+coverage_percent_conversion_factor: 1e-8
